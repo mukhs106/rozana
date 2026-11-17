@@ -1,0 +1,21 @@
+{
+  // Format with Prettier when you save.
+  // "modificationsIfAvailable" = only reformat the lines you changed, so opening
+  // and saving an untouched Base44 file doesn't rewrite the whole thing.
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Show ESLint problems as you type.
+  "eslint.validate": ["javascript", "javascriptreact"],
+
+  // Tailwind IntelliSense: autocomplete + colour previews for class names.
+  "tailwindCSS.experimental.configFile": "tailwind.config.js",
+  "tailwindCSS.includeLanguages": { "javascript": "javascript", "javascriptreact": "javascript" },
+  "editor.quickSuggestions": { "strings": "on" },
+  "files.associations": { "*.css": "tailwindcss" },
+
+  // Generated / build folders you never need to search or edit.
+  "files.exclude": { "**/.tanstack": true, "**/.wrangler": true },
+  "search.exclude": { "**/dist": true, "**/.wrangler": true, "**/.tanstack": true, "src/routeTree.gen.ts": true }
+}

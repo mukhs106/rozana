@@ -1,0 +1,83 @@
+{
+  "name": "SavedVersion",
+  "type": "object",
+  "properties": {
+    "recipe_id": {
+      "type": "string"
+    },
+    "recipe_title": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "version_key": {
+      "type": "string"
+    },
+    "version_name": {
+      "type": "string"
+    },
+    "servings": {
+      "type": "number"
+    },
+    "meal_count": {
+      "type": "number"
+    },
+    "total_portions": {
+      "type": "number"
+    },
+    "swap_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "diner_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

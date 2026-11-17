@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+/* base44-workspace-fonts:start */
+@font-face {
+  font-family: 'Palmeria';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/palmeria-c71a5772-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lastik Free';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/lastik-free-96457e38-400-normal.woff2') format('woff2');
+}
+/* base44-workspace-fonts:end */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 20 12% 7%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 12% 7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 12% 7%;
+    --primary: 9 76% 41%;
+    --primary-foreground: 40 33% 97%;
+    --secondary: 36 22% 95%;
+    --secondary-foreground: 20 12% 12%;
+    --muted: 36 22% 95%;
+    --muted-foreground: 24 7% 44%;
+    --accent: 36 26% 94%;
+    --accent-foreground: 20 12% 12%;
+    --destructive: 9 76% 41%;
+    --destructive-foreground: 40 33% 97%;
+    --border: 30 10% 88%;
+    --input: 30 10% 88%;
+    --ring: 322 52% 28%;
+    --radius: 0.75rem;
+
+    --ink: 20 12% 7%;
+    --ink-soft: 20 9% 24%;
+    --ink-mid: 20 8% 34%;
+    --ink-faint: 20 7% 44%;
+    --chili: 9 76% 41%;
+    --chili-foreground: 40 33% 97%;
+    --lagoon: 188 52% 26%;
+    --dune: 38 65% 46%;
+    --plum: 322 53% 28%;
+    --clay: 14 55% 54%;
+
+    /* Rozana palette: warm paper for browse screens, earthy footer fields. */
+    --paper: 38 48% 96%;
+    --olive: 72 22% 28%;
+    --portobello: 14 42% 20%;
+    --turmeric: 43 71% 57%;
+    --fired: 16 61% 46%;
+    --oxblood: 345 63% 22%;
+
+    /* Fixed type colors for the saturated editorial fields: they never flip
+       with the theme, because the field behind them never does. */
+    --field-ink: 18 45% 12%;
+    --field-paper: 40 38% 96%;
+
+    /* Editorial tile palette: the color fields recipe photos sit on. */
+    --cream: 35 81% 94%;
+    --tile-clay: 16 61% 47%;
+    --tile-dune: 42 70% 60%;
+    --tile-portobello: 11 51% 19%;
+    --tile-lagoon: 213 46% 24%;
+    --tile-thyme: 62 20% 31%;
+    --tile-wine: 350 77% 21%;
+
+    --chart-1: 9 76% 41%;
+    --chart-2: 188 52% 26%;
+    --chart-3: 38 65% 46%;
+    --chart-4: 322 53% 28%;
+    --chart-5: 14 55% 54%;
+
+    --font-heading: 'Lastik Free', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Palmeria', sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --font-mono: 'Palmeria', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 9 76% 41%;
+  }
+
+  .dark {
+    --background: 22 10% 8%;
+    --foreground: 40 20% 95%;
+    --card: 22 9% 11%;
+    --card-foreground: 40 20% 95%;
+    --popover: 22 9% 11%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 9 68% 56%;
+    --primary-foreground: 20 20% 8%;
+    --secondary: 24 8% 16%;
+    --secondary-foreground: 40 20% 95%;
+    --muted: 24 8% 16%;
+    --muted-foreground: 34 10% 72%;
+    --accent: 24 8% 18%;
+    --accent-foreground: 40 20% 95%;
+    --destructive: 9 62% 44%;
+    --destructive-foreground: 40 33% 97%;
+
+    --ink: 40 22% 96%;
+    --ink-soft: 38 12% 86%;
+    --ink-mid: 36 10% 72%;
+    --ink-faint: 34 8% 60%;
+
+    --chili: 9 70% 58%;
+    --chili-foreground: 20 26% 8%;
+    --lagoon: 188 45% 62%;
+    --dune: 38 65% 62%;
+    --plum: 322 45% 68%;
+    --clay: 14 60% 66%;
+
+    --paper: 26 12% 12%;
+    --olive: 72 20% 40%;
+    --portobello: 14 34% 30%;
+    --turmeric: 43 62% 52%;
+    --fired: 16 58% 50%;
+    --oxblood: 350 62% 64%;
+
+    --cream: 34 24% 20%;
+    --tile-clay: 16 50% 42%;
+    --tile-dune: 42 45% 40%;
+    --tile-portobello: 11 30% 24%;
+    --tile-lagoon: 213 34% 30%;
+    --tile-thyme: 62 16% 32%;
+    --tile-wine: 350 45% 30%;
+
+    --border: 26 8% 22%;
+    --input: 26 8% 22%;
+    --ring: 9 70% 58%;
+
+    --sidebar-background: 22 10% 10%;
+    --sidebar-foreground: 40 18% 92%;
+    --sidebar-border: 26 8% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "ss01" 1;
+  }
+
+  ::selection {
+    background-color: hsl(var(--chili) / 0.15);
+    color: hsl(var(--ink));
+  }
+}
+
+@layer base {
+  /* Dish and page titles carry the editorial serif; everything else stays in
+     one sans, with hierarchy coming from size, weight and space. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-medium;
+    color: hsl(var(--ink-mid));
+  }
+
+  .hairline {
+    @apply border-t border-border;
+  }
+
+  .num {
+    @apply tabular-nums;
+  }
+}
+
+@layer utilities {
+  /* The interface uses no forced uppercase and no wide tracking. These keep any
+     remaining utility from shouting, so the voice holds across every screen. */
+  .uppercase {
+    text-transform: none !important;
+  }
+
+  .tracking-wide,
+  .tracking-wider,
+  .tracking-widest,
+  [class*="tracking-[0."] {
+    letter-spacing: 0 !important;
+  }
+}

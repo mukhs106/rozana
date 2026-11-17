@@ -1,0 +1,9 @@
+# Generated or Base44-managed files: never reformat.
+src/routeTree.gen.ts
+src/server.js
+src/lib/error-capture.js
+src/lib/error-capture.server.js
+package-lock.json
+dist
+.wrangler
+.tanstack

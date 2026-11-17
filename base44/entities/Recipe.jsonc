@@ -1,0 +1,355 @@
+{
+  "name": "Recipe",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "cuisine": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft"
+      ],
+      "enumColors": [
+        "green",
+        "gray"
+      ],
+      "default": "published"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "base_servings": {
+      "type": "number"
+    },
+    "cook_minutes": {
+      "type": "number"
+    },
+    "heat_level": {
+      "type": "number"
+    },
+    "sort_order": {
+      "type": "number"
+    },
+    "base_ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "allergens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "base_instructions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "variations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "qty": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                },
+                "allergens": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nutrition": {
+            "type": "object",
+            "properties": {
+              "kcal": {
+                "type": "number"
+              },
+              "protein": {
+                "type": "number"
+              },
+              "carbs": {
+                "type": "number"
+              },
+              "fat": {
+                "type": "number"
+              },
+              "fiber": {
+                "type": "number"
+              }
+            }
+          },
+          "split": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "set_aside_ratio": {
+                "type": "number"
+              },
+              "step": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "swaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "from_image_url": {
+            "type": "string"
+          },
+          "to_image_url": {
+            "type": "string"
+          },
+          "ratio": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "affects": {
+            "type": "string"
+          },
+          "method_change": {
+            "type": "string"
+          },
+          "removes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "adds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "nutrition": {
+      "type": "object",
+      "properties": {
+        "kcal": {
+          "type": "number"
+        },
+        "protein": {
+          "type": "number"
+        },
+        "carbs": {
+          "type": "number"
+        },
+        "fat": {
+          "type": "number"
+        },
+        "fiber": {
+          "type": "number"
+        }
+      }
+    },
+    "ingredients_structured": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "prep": {
+            "type": "string"
+          },
+          "allergens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "diet": {
+            "type": "object",
+            "properties": {
+              "vegetarian": {
+                "type": "boolean"
+              },
+              "vegan": {
+                "type": "boolean"
+              },
+              "jain": {
+                "type": "boolean"
+              },
+              "satvik": {
+                "type": "boolean"
+              },
+              "contains_onion_garlic": {
+                "type": "boolean"
+              }
+            }
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "nutrition_per_serving": {
+      "type": "object",
+      "properties": {
+        "kcal": {
+          "type": "number"
+        },
+        "protein": {
+          "type": "number"
+        },
+        "carbs": {
+          "type": "number"
+        },
+        "fat": {
+          "type": "number"
+        },
+        "fibre": {
+          "type": "number"
+        }
+      }
+    },
+    "adapts_note": {
+      "type": "string"
+    },
+    "enriched_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "needs_review": {
+      "type": "boolean"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "is_seeded": {
+      "type": "boolean"
+    }
+  },
+  "rls": {
+    "read": {},
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  },
+  "required": []
+}

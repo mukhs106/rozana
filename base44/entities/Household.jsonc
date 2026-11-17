@@ -1,0 +1,118 @@
+{
+  "name": "Household",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "default_servings": {
+      "type": "number"
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "is_self": {
+            "type": "boolean"
+          },
+          "allergies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "diet": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "avoid": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dislikes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "spice": {
+            "type": "string"
+          },
+          "goals": {
+            "type": "object",
+            "properties": {
+              "kcal": {
+                "type": "number"
+              },
+              "protein": {
+                "type": "number"
+              },
+              "high_protein": {
+                "type": "boolean"
+              },
+              "fibre": {
+                "type": "boolean"
+              },
+              "lighter": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  },
+  "required": []
+}
