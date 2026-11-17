@@ -12,9 +12,9 @@ const STYLES = {
 const SHORT = { [FIT.FITS]: "Fits", [FIT.SWAP]: "Swap", [FIT.CHECK]: "Check", [FIT.CANT]: "Can't eat" };
 
 /** One person's verdict: always an icon and a word, never colour alone. */
-export default function FitBadge({ status, className, short = false }) {
+export default function FitBadge({ status, className, short = false, label: override }) {
   const style = STYLES[status] || STYLES[FIT.CHECK];
-  const label = short ? SHORT[status] : FIT_LABELS[status];
+  const label = override || (short ? SHORT[status] : FIT_LABELS[status]);
   return (
     <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-small font-medium", style.className, className)}>
       <style.Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.4} aria-hidden="true" />

@@ -90,3 +90,8 @@ export function useUserSettings() {
 export function useCookLog() {
   return useQuery({ queryKey: ["cook-log"], queryFn: () => db.CookLog.list("-cooked_on") });
 }
+
+/** Collections the cook made, plus the Favourites one (created on first heart). */
+export function useCollections() {
+  return useQuery({ queryKey: ["collections"], queryFn: () => db.Collection.list("name") });
+}

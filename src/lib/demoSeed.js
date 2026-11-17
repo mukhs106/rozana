@@ -135,6 +135,7 @@ export function buildDemoData() {
 
   const ids = (...titles) => titles.map((title) => byTitle(title)?.id).filter(Boolean);
   const collections = [
+    { id: "c-favourites", name: "Favourites", system: "favourites", recipe_ids: ids("Rajma masala", "Moong dal khichdi", "Masoor dal") },
     { id: "c-arjun", name: "Arjun's favourites", recipe_ids: ids("Baingan bharta", "Kerala coconut stew", "Aloo matar") },
     { id: "c-sunday", name: "Sunday lunch", recipe_ids: ids("Home-style chicken curry", "Tandoori roast gobi", "Vegetable pulao") },
     { id: "c-quick", name: "When we're tired", recipe_ids: ids("Masoor dal", "Moong dal khichdi", "Paneer bhurji") },

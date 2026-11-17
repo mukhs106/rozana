@@ -97,7 +97,7 @@ export default function TonightsTable({ slot, today, recipe, diners, table, plan
       {planned ? (
         <Pill
           as={Link}
-          to="/make/$recipeId"
+          to="/recipes/$recipeId"
           params={{ recipeId: recipe.id }}
           search={{ diners: diners.map((member) => member.id).join(","), version: planned.version_key || undefined }}
           className="mt-5 w-full"

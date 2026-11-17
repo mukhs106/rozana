@@ -7,7 +7,7 @@ export { isDemo };
 export const DEMO_DB_KEY = "rozana.demo.db";
 const VERSION_KEY = "rozana.demo.version";
 // Bump when the sample data changes, so open demos pick up the new seed.
-const DEMO_SEED_VERSION = "2";
+const DEMO_SEED_VERSION = "3";
 
 export const DEMO_USER = {
   id: "demo-user",

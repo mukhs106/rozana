@@ -330,6 +330,13 @@ Cards show **"Fits 3 of 4"**.
 | 1 | `phase-1-foundations` | Demo entry + seeded demo data, `src/api/db.js` adapter (Base44 + local), pages moved onto it, tokens, new shell (top bar, tab bar with Groceries, feedback sheet) | — |
 | 2 | `phase-2-today` | Fit engine + allergy safety rules, Today: tonight's table, shortcuts, shelves, this week, story teaser | **Stop with 390×844 screenshots** |
 | 3 | `phase-3-recipes` | Library (tabs, search, sort, filters, add tile, collections), recipe page with At the table | — |
+
+**Phase 3 as built.** "Cook for this table" on Today now opens the recipe page with that table seated
+(the recipe page *is* the adapted dish); the older batch screen stays reachable as "Split this batch
+across several meals". Swaps are split by portion when the ingredient can be cooked apart (paneer,
+tofu, chicken, egg, potato, chickpeas, nuts…) and whole-pot otherwise (ghee, oil, onion…), and the
+page says which. People who can't eat a dish start unseated. The servings stepper on Ingredients adds
+spare portions for a tiffin or the freezer. "Cook" opens a step-by-step view that ends in "Cooked it".
 | 4 | `phase-4-plan-groceries` | Week view, meal sheet, Groceries tab, pantry, order sheet, list bug fixes (single batch, no 6-item cap, one heading) | — |
 | 5 | `phase-5-profile` | Table-first profile, units, servings, language, staples, streak, reminders, household (soon), about, account | Final report |
 

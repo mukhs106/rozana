@@ -3,7 +3,7 @@
 import { matchesSwap } from "@/lib/swapLibrary";
 
 const FRACTIONS = { 0.25: "¼", 0.5: "½", 0.75: "¾", 0.2: "⅕", 0.33: "⅓", 0.67: "⅔" };
-const PLURALS = { clove: "cloves", can: "cans", bunch: "bunches", sprig: "sprigs", slice: "slices", pinch: "pinches" };
+const PLURALS = { cup: "cups", clove: "cloves", can: "cans", bunch: "bunches", sprig: "sprigs", slice: "slices", pinch: "pinches" };
 const MEAT_WORDS = ["chicken", "mutton", "lamb", "fish", "prawn", "shrimp", "beef", "pork", "egg", "keema"];
 
 export function roundSmart(value, unit) {

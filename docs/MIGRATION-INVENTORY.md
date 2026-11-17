@@ -25,12 +25,13 @@ tables below, "File / Line" now points at `db.X` calls in the same files.
 
 | Table / field | Shape | Today | Supabase |
 | --- | --- | --- | --- |
-| `Collection` | `{ name, recipe_ids[] }` | browser only (signed in), demo store | `collections (owner_id, name)` + `collection_recipes` |
+| `Collection` | `{ name, recipe_ids[], system? }` (`system: "favourites"` marks Favourites) | browser only (signed in), demo store | `collections (owner_id, name)` + `collection_recipes` |
 | `CookLog` | `{ recipe_id, planned_meal_id?, cooked_on }` (feeds the streak) | browser only | `cook_log (owner_id, recipe_id, cooked_on date)` |
 | `UserSettings` | `{ units, default_servings, auto_scale, recipe_language, staples[] }` | browser only | `user_settings (owner_id unique, …)` |
 | `PlannedMeal.portions[].diner_id` | diner id next to `diner_name` | written by new plans | keep in `portions` jsonb |
 | `Household.members[].portion` | usual portion size (0.5–2) | demo only so far | in `members` jsonb |
 | `GroceryItem.use_soon`, `.leftover`, `.use_by` | pantry flags for "Use it up" | demo only so far | columns on `grocery_items` |
+| `GroceryItem.recipe_id` | which recipe an item came from (recipe page "Groceries") | written by new adds | `recipe_id uuid` on `grocery_items` |
 
 Fields marked "demo only so far" are not yet written for signed-in users; adding them to
 Base44 is an open decision (see `docs/REDESIGN-PLAN.md` §7.3).
