@@ -1,6 +1,47 @@
 // Copy for the settings screens. Policy pages are honest drafts: they say so
 // until the household owner replaces them with reviewed text.
 export const INFO_TOPICS = {
+  "our-story": {
+    title: "Our story",
+    intro: "One pot of dal, four people, four different rules.",
+    sections: [
+      {
+        heading: "Why Rozana exists",
+        body: "In most South Asian homes one person cooks for a table that does not eat the same way: a parent who is Jain, a partner who went vegan, a child with a nut allergy, someone who wants more protein. The usual answer is cooking three times, or one person quietly going without.",
+      },
+      {
+        heading: "One batch, adapted",
+        body: "Rozana starts from the dishes you already cook and works out one batch for everyone: how much each person eats, which swaps they need, and one shared grocery list. Rajma for four, with tofu set aside for one plate, is still one pot.",
+      },
+      {
+        heading: "Rozana means everyday",
+        body: "This is for ordinary weeknights and tiffins, not special occasions. Familiar food, planned once, cooked once, eaten by everyone.",
+      },
+    ],
+    missing: "This is a placeholder in Rozana's voice. Replace it with your own story.",
+  },
+  "how-checks-work": {
+    title: "How swaps and allergy checks work",
+    intro: "Every check is a rule you could follow with a pencil. No guessing.",
+    sections: [
+      {
+        heading: "Each person, each dish",
+        body: "Rozana compares every ingredient with each person's allergies, diet rules and ingredients they avoid. The result is one of four: fits, needs a swap, needs a check, or can't eat this.",
+      },
+      {
+        heading: "Unknown is not the same as fine",
+        body: "If nobody has recorded what an ingredient contains, Rozana treats it as unknown and marks the dish as needing a check for anyone with an allergy. It never assumes an ingredient is free of something.",
+      },
+      {
+        heading: "Swaps you confirm",
+        body: "When a swap fixes a rule, for example tofu for paneer, Rozana suggests it for that person's portion. Nothing is swapped without you choosing it.",
+      },
+      {
+        heading: "Always check labels",
+        body: "Packaged ingredients change and can carry traces. Rozana works from the recipe, not the packet in your kitchen. Always read the label before cooking for someone with an allergy.",
+      },
+    ],
+  },
   "privacy-choices": {
     title: "Privacy choices",
     intro: "What Rozana keeps, and what stays on your phone.",

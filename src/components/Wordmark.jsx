@@ -39,7 +39,7 @@ export function Monogram({ className }) {
     <span
       aria-hidden="true"
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center font-display text-[30px] italic leading-none text-oxblood",
+        "inline-flex h-9 w-9 items-center justify-center font-display text-display italic leading-none text-oxblood",
         className,
       )}
       style={{ filter: "url(#rough-ink)", transform: "rotate(-3deg)" }}

@@ -15,7 +15,7 @@ export default function HeatMeter({ level = 1, showLabel = true, className, tone
           />
         ))}
       </span>
-      {showLabel ? <span className="text-[11.5px] font-medium">{heatLabel(count)}</span> : null}
+      {showLabel ? <span className="text-small font-medium">{heatLabel(count)}</span> : null}
     </span>
   );
 }

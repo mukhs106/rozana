@@ -21,7 +21,7 @@ function Chip({ active, children, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors ${
+      className={`rounded-full border px-2.5 py-1 text-small font-medium transition-colors ${
         active ? "border-oxblood bg-oxblood text-paper" : "border-black/15 text-ink-mid"
       }`}
     >
@@ -50,12 +50,12 @@ function AddEntry({ placeholder, onAdd }) {
           }
         }}
         placeholder={placeholder}
-        className="min-w-0 flex-1 rounded-full border border-black/15 px-3 py-1.5 text-[12px] outline-none placeholder:text-ink-faint"
+        className="min-w-0 flex-1 rounded-full border border-black/15 px-3 py-1.5 text-small outline-none placeholder:text-ink-faint"
       />
       <button
         type="button"
         onClick={submit}
-        className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.12em] text-oxblood"
+        className="shrink-0 text-small font-semibold uppercase tracking-[0.12em] text-oxblood"
       >
         Add
       </button>
@@ -65,7 +65,7 @@ function AddEntry({ placeholder, onAdd }) {
 
 function Tag({ children, onRemove }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-black/15 px-2 py-[3px] text-[11px] text-ink">
+    <span className="inline-flex items-center gap-1 rounded-full border border-black/15 px-2 py-[3px] text-small text-ink">
       {children}
       {onRemove ? (
         <button type="button" onClick={onRemove} aria-label={`Remove ${children}`}>
@@ -127,7 +127,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
       <DialogContent className="max-w-[420px] rounded-3xl border-border p-0">
         <div className="max-h-[84vh] overflow-y-auto px-5 pb-5 pt-6">
           <p className="eyebrow">{member ? "Edit diner" : "Add a diner"}</p>
-          <DialogTitle className="mt-2 text-[22px] font-semibold tracking-[-0.02em]">
+          <DialogTitle className="mt-2 text-title font-semibold tracking-[-0.02em]">
             <input
               value={draft.name}
               onChange={(event) => setDraft({ ...draft, name: event.target.value })}
@@ -138,7 +138,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
 
           <div className="mt-5">
             <p className="eyebrow">Allergies</p>
-            <p className="mt-1 text-[11px] leading-snug text-ink-faint">
+            <p className="mt-1 text-small leading-snug text-ink-faint">
               Kept separate from preferences: these block a batch.
             </p>
             <div className="mt-2 flex flex-wrap gap-1.5">
@@ -169,7 +169,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
                 </Chip>
               ))}
             </div>
-            <p className="mt-2 text-[11px] leading-snug text-ink-faint">
+            <p className="mt-2 text-small leading-snug text-ink-faint">
               Presets only fill in the rules below. Edit them freely, including the Jain onion, garlic and root
               vegetable rules.
             </p>
@@ -185,7 +185,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
                   </Tag>
                 ))
               ) : (
-                <p className="text-[11.5px] text-ink-mid">No ingredient rules yet.</p>
+                <p className="text-small text-ink-mid">No ingredient rules yet.</p>
               )}
             </div>
             <AddEntry placeholder="e.g. onion" onAdd={(value) => addTo("avoid", value)} />
@@ -242,9 +242,9 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
                     setDraft({ ...draft, goals: { ...draft.goals, kcal: Number(event.target.value) } })
                   }
                   placeholder="0"
-                  className="num w-full bg-transparent text-[13px] outline-none placeholder:text-ink-faint"
+                  className="num w-full bg-transparent text-body outline-none placeholder:text-ink-faint"
                 />
-                <span className="text-[10px] uppercase tracking-[0.1em] text-ink-faint">kcal</span>
+                <span className="text-small uppercase tracking-[0.1em] text-ink-faint">kcal</span>
               </label>
               <label className="flex flex-1 items-center gap-2 rounded-full border border-black/15 px-3 py-2">
                 <input
@@ -255,9 +255,9 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
                     setDraft({ ...draft, goals: { ...draft.goals, protein: Number(event.target.value) } })
                   }
                   placeholder="0"
-                  className="num w-full bg-transparent text-[13px] outline-none placeholder:text-ink-faint"
+                  className="num w-full bg-transparent text-body outline-none placeholder:text-ink-faint"
                 />
-                <span className="text-[10px] uppercase tracking-[0.1em] text-ink-faint">g protein</span>
+                <span className="text-small uppercase tracking-[0.1em] text-ink-faint">g protein</span>
               </label>
             </div>
           </div>
@@ -267,7 +267,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
               <button
                 type="button"
                 onClick={() => onDelete(draft)}
-                className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-faint"
+                className="text-small font-semibold uppercase tracking-[0.12em] text-ink-faint"
               >
                 Remove
               </button>

@@ -45,11 +45,11 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
       {items.map((item, index) => (
         <div key={`${item.name}-${index}`} className="flex items-center gap-3 border-t border-border py-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[15px] leading-snug">{item.name}</p>
-            <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-ink-faint">added</p>
+            <p className="text-body leading-snug">{item.name}</p>
+            <p className="mt-0.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">added</p>
           </div>
           {item.qty ? (
-            <span className="num shrink-0 text-[13.5px] font-medium leading-tight">
+            <span className="num shrink-0 text-body font-medium leading-tight">
               {formatAmount(item.qty, item.unit)}
             </span>
           ) : null}
@@ -67,7 +67,7 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mt-1 inline-flex items-center gap-1.5 border-t border-border py-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-chili"
+        className="mt-1 inline-flex items-center gap-1.5 border-t border-border py-2.5 text-small font-semibold uppercase tracking-[0.14em] text-chili"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2.6} /> Add ingredient
       </button>
@@ -77,8 +77,8 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
           side="bottom"
           className="rounded-t-2xl border-border bg-background px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5"
         >
-          <SheetTitle className="text-[19px] font-semibold tracking-[-0.01em]">Add an ingredient</SheetTitle>
-          <SheetDescription className="mt-1 text-[12px] leading-snug text-ink-mid">
+          <SheetTitle className="text-heading font-semibold tracking-[-0.01em]">Add an ingredient</SheetTitle>
+          <SheetDescription className="mt-1 text-small leading-snug text-ink-mid">
             Anything this batch needs beyond the recipe. It goes into the saved version and the shopping list.
           </SheetDescription>
 
@@ -88,7 +88,7 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Moringa powder"
-              className="mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-3 text-[15px] text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+              className="mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-3 text-body text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
             />
           </label>
 
@@ -100,7 +100,7 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
                 onChange={(event) => setAmount(event.target.value.replace(/[^0-9.]/g, ""))}
                 inputMode="decimal"
                 placeholder="1"
-                className="num mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-3 text-[15px] focus:border-ink focus:outline-none"
+                className="num mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-3 text-body focus:border-ink focus:outline-none"
               />
             </label>
             <label className="block">
@@ -108,7 +108,7 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
               <select
                 value={unit}
                 onChange={(event) => setUnit(event.target.value)}
-                className="mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-2 text-[15px] focus:border-ink focus:outline-none"
+                className="mt-1.5 h-11 w-full rounded-[4px] border border-black/15 bg-background px-2 text-body focus:border-ink focus:outline-none"
               >
                 {UNITS.map((option) => (
                   <option key={option} value={option}>
@@ -125,13 +125,13 @@ export default function ExtraIngredients({ items = [], onAdd, onRemove }) {
                 key={idea.name}
                 type="button"
                 onClick={() => pickIdea(idea)}
-                className="rounded-full border border-black/15 px-3 py-1.5 text-[11.5px] font-medium text-ink-soft hover:border-black/35"
+                className="rounded-full border border-black/15 px-3 py-1.5 text-small font-medium text-ink-soft hover:border-black/35"
               >
                 {idea.name}
               </button>
             ))}
           </div>
-          <p className="mt-2 text-[11.5px] leading-snug text-ink-faint">
+          <p className="mt-2 text-small leading-snug text-ink-faint">
             {IDEAS.find((idea) => idea.name === name)?.note || "No allergen is assumed for what you add."}
           </p>
 

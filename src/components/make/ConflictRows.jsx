@@ -13,7 +13,7 @@ export default function ConflictRows({ conflicts = [], missing = [] }) {
             className={cn("mt-0.5 h-3.5 w-3.5 shrink-0", conflict.kind === "allergy" ? "text-chili" : "text-plum")}
             strokeWidth={2.2}
           />
-          <p className="text-[12.5px] leading-snug text-ink-soft">
+          <p className="text-small leading-snug text-ink-soft">
             <span className="font-semibold text-ink">{conflict.who}</span> avoids {conflict.label} — {conflict.ingredient}{" "}
             is still in.
           </p>
@@ -22,7 +22,7 @@ export default function ConflictRows({ conflicts = [], missing = [] }) {
       {missing.length ? (
         <div className="flex items-start gap-2">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-faint" strokeWidth={2.2} />
-          <p className="text-[11.5px] leading-snug text-ink-mid">
+          <p className="text-small leading-snug text-ink-mid">
             No allergen info for {missing.slice(0, 3).join(", ")}
             {missing.length > 3 ? ` and ${missing.length - 3} more` : ""}.
           </p>

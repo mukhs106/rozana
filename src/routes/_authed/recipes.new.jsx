@@ -5,8 +5,9 @@ import { toast } from "sonner";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import Pill from "@/components/Pill";
-import { base44 } from "@/api/base44Client";
+import { db } from "@/api/db";
 import { importRecipeFromUrl } from "@/lib/recipe-import";
+import { useIsDemo } from "@/hooks/useDemo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authed/recipes/new")({
@@ -65,9 +66,9 @@ function gapsFor(form) {
 function Field({ label, hint, children }) {
   return (
     <label className="block border-t border-border pt-3">
-      <span className="text-[12.5px] font-medium text-ink-mid">{label}</span>
+      <span className="text-small font-medium text-ink-mid">{label}</span>
       {children}
-      {hint ? <span className="mt-1 block text-[11.5px] leading-snug text-ink-mid">{hint}</span> : null}
+      {hint ? <span className="mt-1 block text-small leading-snug text-ink-mid">{hint}</span> : null}
     </label>
   );
 }
@@ -76,6 +77,7 @@ function NewRecipePage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const runImport = useServerFn(importRecipeFromUrl);
+  const demo = useIsDemo();
 
   const [step, setStep] = useState(search.mode === "manual" ? "manual" : "link");
   const [link, setLink] = useState("");
@@ -90,6 +92,8 @@ function NewRecipePage() {
   const blocking = gaps.filter((gap) => ["Dish name", "Ingredients", "Method"].includes(gap));
 
   const readLink = async () => {
+    // Link import uses AI on the server; the demo never calls the server.
+    if (demo) return;
     const url = link.trim();
     if (!url) {
       setNote({ tone: "error", text: "Paste the recipe link first." });
@@ -142,7 +146,7 @@ function NewRecipePage() {
     }
     setSaving(true);
     try {
-      const created = await base44.entities.Recipe.create({
+      const created = await db.Recipe.create({
         title: form.title.trim(),
         description: form.description.trim(),
         image_url: form.image_url.trim(),
@@ -169,12 +173,12 @@ function NewRecipePage() {
 
   return (
     <AppShell>
-      <Link to="/recipes" className="inline-flex items-center gap-1 text-[13px] text-ink-mid">
+      <Link to="/recipes" className="inline-flex items-center gap-1 text-body text-ink-mid">
         <ChevronLeft className="h-4 w-4" strokeWidth={2.2} /> Recipes
       </Link>
 
-      <h1 className="mt-3 text-[30px] leading-tight">Add a recipe</h1>
-      <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-soft">
+      <h1 className="mt-3 text-display leading-tight">Add a recipe</h1>
+      <p className="mt-1.5 text-body leading-relaxed text-ink-soft">
         Start from a link you already cook from, or write it yourself. Everything stays editable.
       </p>
 
@@ -192,7 +196,7 @@ function NewRecipePage() {
             }}
             aria-pressed={step === option.key || (option.key === "link" && step === "preview")}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-[12.5px] font-medium",
+              "rounded-full border px-3.5 py-1.5 text-small font-medium",
               step === option.key || (option.key === "link" && step === "preview")
                 ? "border-oxblood bg-oxblood text-field-paper"
                 : "border-border text-ink-mid",
@@ -206,16 +210,21 @@ function NewRecipePage() {
       {step === "link" ? (
         <div className="mt-5 border-t border-border pt-4">
           <label className="block">
-            <span className="text-[12.5px] font-medium text-ink-mid">Recipe link</span>
+            <span className="text-small font-medium text-ink-mid">Recipe link</span>
             <input
               value={link}
               onChange={(event) => setLink(event.target.value)}
               inputMode="url"
               placeholder="https://"
-              className="mt-1 w-full bg-transparent pb-1 text-[16px] outline-none placeholder:text-ink-mid"
+              className="mt-1 w-full bg-transparent pb-1 text-body outline-none placeholder:text-ink-mid"
             />
           </label>
-          <Pill onClick={readLink} disabled={importing} className="mt-4 w-full">
+          {demo ? (
+            <p className="mt-4 rounded-[8px] bg-secondary p-3 text-body leading-snug text-ink-soft">
+              Reading a recipe from a link is switched off in the demo. Choose Add manually to try writing one in.
+            </p>
+          ) : null}
+          <Pill onClick={readLink} disabled={importing || demo} className="mt-4 w-full">
             {importing ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" /> Reading the page
@@ -224,7 +233,7 @@ function NewRecipePage() {
               "Read the recipe"
             )}
           </Pill>
-          <p className="mt-2 text-[12px] leading-snug text-ink-mid">
+          <p className="mt-2 text-small leading-snug text-ink-mid">
             We keep the link with the recipe and only read what the page publishes. If it cannot be read, you can still
             write it in and the link stays attached.
           </p>
@@ -234,7 +243,7 @@ function NewRecipePage() {
       {note ? (
         <p
           className={cn(
-            "mt-4 rounded-[8px] p-3 text-[12.5px] leading-snug",
+            "mt-4 rounded-[8px] p-3 text-small leading-snug",
             note.tone === "error" ? "bg-chili/[0.08] text-chili" : "bg-secondary text-ink-soft",
           )}
         >
@@ -243,7 +252,7 @@ function NewRecipePage() {
       ) : null}
 
       {source ? (
-        <p className="mt-3 break-words text-[12px] leading-snug text-ink-mid">
+        <p className="mt-3 break-words text-small leading-snug text-ink-mid">
           Source kept: {source.name ? `${source.name} · ` : ""}
           {source.url}
         </p>
@@ -253,8 +262,8 @@ function NewRecipePage() {
         <>
           {gaps.length ? (
             <div className="mt-4 border-t border-border pt-3">
-              <p className="text-[13px] font-medium">Fill in before saving</p>
-              <p className="mt-1 text-[12.5px] leading-snug text-ink-mid">{gaps.join(" · ")}</p>
+              <p className="text-body font-medium">Fill in before saving</p>
+              <p className="mt-1 text-small leading-snug text-ink-mid">{gaps.join(" · ")}</p>
             </div>
           ) : null}
 
@@ -264,7 +273,7 @@ function NewRecipePage() {
                 value={form.title}
                 onChange={(event) => set("title", event.target.value)}
                 placeholder="Rajma"
-                className="mt-1 w-full bg-transparent text-[18px] outline-none placeholder:text-ink-mid"
+                className="mt-1 w-full bg-transparent text-heading outline-none placeholder:text-ink-mid"
               />
             </Field>
 
@@ -276,7 +285,7 @@ function NewRecipePage() {
                   value={form.servings}
                   onChange={(event) => set("servings", event.target.value)}
                   placeholder="4"
-                  className="num mt-1 w-full bg-transparent text-[15px] outline-none placeholder:text-ink-mid"
+                  className="num mt-1 w-full bg-transparent text-body outline-none placeholder:text-ink-mid"
                 />
               </Field>
               <Field label="Cook time (minutes)">
@@ -286,7 +295,7 @@ function NewRecipePage() {
                   value={form.cook_minutes}
                   onChange={(event) => set("cook_minutes", event.target.value)}
                   placeholder="35"
-                  className="num mt-1 w-full bg-transparent text-[15px] outline-none placeholder:text-ink-mid"
+                  className="num mt-1 w-full bg-transparent text-body outline-none placeholder:text-ink-mid"
                 />
               </Field>
             </div>
@@ -296,7 +305,7 @@ function NewRecipePage() {
                 value={form.image_url}
                 onChange={(event) => set("image_url", event.target.value)}
                 placeholder="https://"
-                className="mt-1 w-full bg-transparent text-[14px] outline-none placeholder:text-ink-mid"
+                className="mt-1 w-full bg-transparent text-body outline-none placeholder:text-ink-mid"
               />
             </Field>
 
@@ -305,7 +314,7 @@ function NewRecipePage() {
                 value={form.description}
                 onChange={(event) => set("description", event.target.value)}
                 rows={2}
-                className="mt-1 w-full resize-none bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-ink-mid"
+                className="mt-1 w-full resize-none bg-transparent text-body leading-relaxed outline-none placeholder:text-ink-mid"
                 placeholder="Slow-simmered kidney beans with ginger."
               />
             </Field>
@@ -315,7 +324,7 @@ function NewRecipePage() {
                 value={form.ingredients}
                 onChange={(event) => set("ingredients", event.target.value)}
                 rows={7}
-                className="mt-1 w-full resize-none bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-ink-mid"
+                className="mt-1 w-full resize-none bg-transparent text-body leading-relaxed outline-none placeholder:text-ink-mid"
                 placeholder={"400 g paneer\n700 g spinach\n2 tbsp ghee"}
               />
             </Field>
@@ -325,7 +334,7 @@ function NewRecipePage() {
                 value={form.instructions}
                 onChange={(event) => set("instructions", event.target.value)}
                 rows={7}
-                className="mt-1 w-full resize-none bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-ink-mid"
+                className="mt-1 w-full resize-none bg-transparent text-body leading-relaxed outline-none placeholder:text-ink-mid"
                 placeholder={"Wilt the spinach and blend.\nFry the paneer until golden."}
               />
             </Field>
@@ -334,7 +343,7 @@ function NewRecipePage() {
           <Pill onClick={save} disabled={saving} className="mt-6 w-full">
             {saving ? "Saving" : "Save recipe"}
           </Pill>
-          <p className="mt-3 pb-4 text-[11.5px] leading-relaxed text-ink-mid">
+          <p className="mt-3 pb-4 text-small leading-relaxed text-ink-mid">
             Ingredients added this way have no allergen record, so the recipe will ask anyone with an allergy to check
             them before cooking.
           </p>

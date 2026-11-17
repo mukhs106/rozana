@@ -1,18 +1,19 @@
 import { cn } from "@/lib/utils";
 
 const VARIANTS = {
-  solid: "bg-chili text-chili-foreground hover:bg-chili/90 active:bg-chili",
+  solid: "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary",
+  soft: "bg-sand text-ink hover:bg-sand/70",
   outline: "border border-border text-ink hover:border-ink-mid",
   quiet: "text-ink hover:bg-secondary",
   bare: "text-chili hover:text-ink",
 };
 
 const SIZES = {
-  md: "h-12 px-6 text-[14px]",
-  sm: "h-9 px-4 text-[12.5px]",
+  md: "h-[52px] px-6 text-body",
+  sm: "h-11 px-4 text-body",
 };
 
-/** One primary action colour across the app: the solid pill is always chili. */
+/** Filled primary pill (oxblood), soft secondary pill (sand), outline, quiet and bare. */
 export default function Pill({
   as: Comp = "button",
   variant = "solid",
@@ -24,7 +25,7 @@ export default function Pill({
   return (
     <Comp
       className={cn(
-        "inline-flex select-none items-center justify-center gap-2 rounded-full font-medium leading-none transition-colors disabled:pointer-events-none disabled:opacity-40",
+        "inline-flex select-none items-center justify-center gap-2 rounded-full font-semibold leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-colors disabled:pointer-events-none disabled:opacity-40",
         VARIANTS[variant],
         SIZES[size],
         className,

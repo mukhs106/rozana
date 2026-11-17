@@ -30,16 +30,16 @@ export default function ReviewSheet({
       <DialogContent className="max-w-[430px] rounded-2xl border-border p-0">
         <div className="max-h-[82vh] overflow-y-auto px-5 pb-5 pt-6">
           <p className="eyebrow">Review batch</p>
-          <DialogTitle className="mt-2 text-[22px] font-semibold leading-tight tracking-[-0.02em]">
+          <DialogTitle className="mt-2 text-title font-semibold leading-tight tracking-[-0.02em]">
             {recipe?.title}
           </DialogTitle>
-          <p className="mt-1 text-[12px] text-ink-mid">{versionName}</p>
+          <p className="mt-1 text-small text-ink-mid">{versionName}</p>
 
           <div className="mt-4 border-t border-border pt-3">
-            <p className="num text-[40px] font-semibold leading-none tracking-[-0.04em]">
+            <p className="num text-display font-semibold leading-none tracking-[-0.04em]">
               {formatServings(totalPortions)}
             </p>
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-mid">
+            <p className="mt-1 text-small font-semibold uppercase tracking-[0.14em] text-ink-mid">
               servings total · {breakdown}
             </p>
           </div>
@@ -53,12 +53,12 @@ export default function ReviewSheet({
                   <li key={meal.key} className="flex items-start gap-2.5 border-t border-border py-2.5">
                     <Icon className="mt-0.5 h-4 w-4 shrink-0 text-ink" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[12.5px] font-semibold leading-tight">{meal.label}</p>
-                      <p className="text-[11.5px] leading-snug text-ink-mid">
+                      <p className="text-small font-semibold leading-tight">{meal.label}</p>
+                      <p className="text-small leading-snug text-ink-mid">
                         {meal.dinersLine} · pack {formatServings(meal.portions)}
                       </p>
                     </div>
-                    <span className="num shrink-0 text-[12px] text-ink-mid">{formatServings(meal.portions)}</span>
+                    <span className="num shrink-0 text-small text-ink-mid">{formatServings(meal.portions)}</span>
                   </li>
                 );
               })}
@@ -69,11 +69,11 @@ export default function ReviewSheet({
             <p className="eyebrow">What to cook</p>
             <ul className="mt-1.5 space-y-1">
               {ingredients.map((row) => (
-                <li key={row.key} className="flex items-baseline justify-between gap-3 text-[12.5px]">
+                <li key={row.key} className="flex items-baseline justify-between gap-3 text-small">
                   <span className="text-ink-soft">
                     {row.name}
                     {row.scope ? (
-                      <span className="ml-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
+                      <span className="ml-1.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">
                         {row.scope.join(" · ")}
                       </span>
                     ) : null}
@@ -89,9 +89,9 @@ export default function ReviewSheet({
               <p className="eyebrow">Swaps</p>
               <ul className="mt-1.5 space-y-1">
                 {swaps.map((swap) => (
-                  <li key={swap.key} className="text-[12.5px] leading-snug text-ink-soft">
+                  <li key={swap.key} className="text-small leading-snug text-ink-soft">
                     {swap.from} → {swap.to}
-                    <span className="ml-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
+                    <span className="ml-1.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">
                       {swap.scopeLabel}
                     </span>
                   </li>
@@ -111,7 +111,7 @@ export default function ReviewSheet({
 
           {hardConflicts.length ? (
             <div className="mt-4 rounded-[4px] bg-chili/[0.06] p-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-chili">Check before saving</p>
+              <p className="text-small font-semibold uppercase tracking-[0.12em] text-chili">Check before saving</p>
               <div className="mt-2">
                 <ConflictRows conflicts={hardConflicts} />
               </div>
@@ -120,7 +120,7 @@ export default function ReviewSheet({
 
           {conflicts.some((conflict) => conflict.kind !== "allergy") || missing.length ? (
             <div className="mt-3 rounded-[4px] bg-black/[0.035] p-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-mid">Worth knowing</p>
+              <p className="text-small font-semibold uppercase tracking-[0.12em] text-ink-mid">Worth knowing</p>
               <div className="mt-2">
                 <ConflictRows
                   conflicts={conflicts.filter((conflict) => conflict.kind !== "allergy")}
@@ -140,7 +140,7 @@ export default function ReviewSheet({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="w-full py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-mid"
+              className="w-full py-1 text-small font-semibold uppercase tracking-[0.12em] text-ink-mid"
             >
               Keep editing
             </button>

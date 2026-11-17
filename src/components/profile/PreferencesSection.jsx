@@ -51,7 +51,7 @@ export default function PreferencesSection({ prefs, update }) {
 
   return (
     <section className="mt-9">
-      <h2 className="text-[19px] leading-tight">Preferences</h2>
+      <h2 className="text-heading leading-tight">Preferences</h2>
 
       <div className="mt-1">
         <SettingsRow label="Prep reminders" hint="A nudge the evening you cook.">
@@ -70,13 +70,13 @@ export default function PreferencesSection({ prefs, update }) {
             aria-label="Lunchbox reminders"
           />
         </SettingsRow>
-        <p className="border-t border-border py-2 text-[11.5px] leading-snug text-ink-mid">
+        <p className="border-t border-border py-2 text-small leading-snug text-ink-mid">
           {AVAILABILITY[permission]}
         </p>
       </div>
 
       <div className="mt-4">
-        <p className="text-[12.5px] font-medium text-ink-mid">Appearance</p>
+        <p className="text-small font-medium text-ink-mid">Appearance</p>
         <div className="mt-2 flex gap-1.5">
           {APPEARANCE.map((option) => (
             <button
@@ -85,7 +85,7 @@ export default function PreferencesSection({ prefs, update }) {
               onClick={() => update({ appearance: option.key })}
               aria-pressed={prefs.appearance === option.key}
               className={cn(
-                "rounded-full border px-3 py-1.5 text-[12.5px] font-medium",
+                "rounded-full border px-3 py-1.5 text-small font-medium",
                 prefs.appearance === option.key
                   ? "border-oxblood bg-oxblood text-field-paper"
                   : "border-border text-ink-mid",
@@ -95,7 +95,7 @@ export default function PreferencesSection({ prefs, update }) {
             </button>
           ))}
         </div>
-        <p className="mt-1.5 text-[11.5px] leading-snug text-ink-mid">
+        <p className="mt-1.5 text-small leading-snug text-ink-mid">
           System follows this device. Light and Dark apply to every screen, sheet and the tab bar.
         </p>
       </div>

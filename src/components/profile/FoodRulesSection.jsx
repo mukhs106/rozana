@@ -23,7 +23,7 @@ export default function FoodRulesSection({
         <button
           type="button"
           onClick={onAdd}
-          className="text-[10px] font-semibold uppercase tracking-[0.12em] text-oxblood"
+          className="text-small font-semibold uppercase tracking-[0.12em] text-oxblood"
         >
           Add diner
         </button>
@@ -49,7 +49,7 @@ export default function FoodRulesSection({
                 className="flex w-full items-start justify-between gap-3 py-3 text-left"
               >
                 <span className="min-w-0">
-                  <span className="block text-[15px] font-medium leading-tight">
+                  <span className="block text-body font-medium leading-tight">
                     {member.name}
                     {member.is_self ? " (you)" : ""}
                   </span>
@@ -62,17 +62,17 @@ export default function FoodRulesSection({
                       {custom.map((item) => (
                         <span
                           key={item}
-                          className="rounded-full border border-oxblood px-2 py-[3px] text-[10.5px] font-medium text-oxblood"
+                          className="rounded-full border border-oxblood px-2 py-[3px] text-small font-medium text-oxblood"
                         >
                           {item}
                         </span>
                       ))}
                     </span>
                   ) : (
-                    <span className="mt-0.5 block text-[11.5px] text-ink-mid">No allergies listed</span>
+                    <span className="mt-0.5 block text-small text-ink-mid">No allergies listed</span>
                   )}
 
-                  <span className="mt-1 block text-[11px] leading-snug text-ink-mid">
+                  <span className="mt-1 block text-small leading-snug text-ink-mid">
                     {[
                       (member.diet || []).join(", "),
                       (member.avoid || []).length ? `rules: ${(member.avoid || []).slice(0, 4).join(", ")}` : null,
@@ -92,8 +92,8 @@ export default function FoodRulesSection({
 
       <div className="mt-2 flex items-center justify-between border-t border-border pt-3">
         <div>
-          <p className="text-[14px] leading-snug">Default servings</p>
-          <p className="mt-0.5 text-[11px] leading-snug text-ink-mid">Where a new batch starts.</p>
+          <p className="text-body leading-snug">Default servings</p>
+          <p className="mt-0.5 text-small leading-snug text-ink-mid">Where a new batch starts.</p>
         </div>
         <Stepper
           value={defaultServings}
@@ -105,7 +105,7 @@ export default function FoodRulesSection({
       </div>
 
       <div className="mt-3 border-t border-border pt-3">
-        <p className="text-[14px] leading-snug">Saved swaps</p>
+        <p className="text-body leading-snug">Saved swaps</p>
         {saved.length ? (
           <ul className="mt-1">
             {saved.slice(0, 4).map((version) => (
@@ -114,12 +114,12 @@ export default function FoodRulesSection({
                   to="/recipes/$recipeId"
                   params={{ recipeId: version.recipe_id }}
                   search={{ version: version.version_key }}
-                  className="flex items-center justify-between gap-3 py-1.5 text-[12px] text-ink-mid"
+                  className="flex items-center justify-between gap-3 py-1.5 text-small text-ink-mid"
                 >
                   <span className="min-w-0 truncate">
                     {version.recipe_title} · {version.version_name}
                   </span>
-                  <span className="shrink-0 text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+                  <span className="shrink-0 text-small uppercase tracking-[0.1em] text-ink-faint">
                     {(version.swap_names || []).length ? version.swap_names.join(", ") : "no swaps"}
                   </span>
                 </Link>
@@ -127,11 +127,11 @@ export default function FoodRulesSection({
             ))}
           </ul>
         ) : (
-          <p className="mt-1 text-[11.5px] text-ink-mid">Saved versions stay here for a one-tap repeat.</p>
+          <p className="mt-1 text-small text-ink-mid">Saved versions stay here for a one-tap repeat.</p>
         )}
       </div>
 
-      <p className="mt-2 text-[11px] leading-relaxed text-ink-faint">
+      <p className="mt-2 text-small leading-relaxed text-ink-faint">
         Allergies block a batch. Rules and preferences only shape what we suggest. {allergenLabel("dairy")} and the
         rest are matched on every ingredient.
       </p>

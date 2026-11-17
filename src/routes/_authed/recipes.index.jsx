@@ -21,7 +21,7 @@ function RecipesPage() {
 
   return (
     <AppShell surface="paper">
-      <h1 className="max-w-[16ch] text-[34px] leading-[1.02] text-oxblood">Familiar dishes, ready to adapt</h1>
+      <h1 className="max-w-[16ch] text-display leading-[1.02] text-oxblood">Familiar dishes, ready to adapt</h1>
 
       <button
         type="button"
@@ -32,8 +32,8 @@ function RecipesPage() {
           <Plus className="h-4 w-4" strokeWidth={2.4} />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block text-[15px] font-medium leading-tight">Add recipe</span>
-          <span className="mt-0.5 block text-[12.5px] text-ink-mid">Paste a link or add it by hand</span>
+          <span className="block text-body font-medium leading-tight">Add recipe</span>
+          <span className="mt-0.5 block text-small text-ink-mid">Paste a link or add it by hand</span>
         </span>
       </button>
 
@@ -51,7 +51,7 @@ function RecipesPage() {
       </div>
 
       {!isLoading && !recipes.length ? (
-        <p className="mt-6 border-t border-border pt-4 text-[13px] leading-relaxed text-ink-mid">
+        <p className="mt-6 border-t border-border pt-4 text-body leading-relaxed text-ink-mid">
           No recipes yet. Add the first one and it becomes the dish Today suggests.
         </p>
       ) : null}

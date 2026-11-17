@@ -11,7 +11,7 @@ export default function UpcomingList({ batches = [], title = "Later in your plan
 
   return (
     <section className="mt-9">
-      <h2 className="text-[19px] leading-tight">{title}</h2>
+      <h2 className="text-heading leading-tight">{title}</h2>
       <ul className="mt-1">
         {batches.map((batch) => {
           const meal = batch.meals[0];
@@ -26,14 +26,14 @@ export default function UpcomingList({ batches = [], title = "Later in your plan
               >
                 <Image src={batch.image_url} alt={batch.recipe_title} className="h-12 w-12 shrink-0 rounded-[6px] object-cover" />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[15px] font-medium leading-tight">{batch.recipe_title}</span>
-                  <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-mid">
+                  <span className="block text-body font-medium leading-tight">{batch.recipe_title}</span>
+                  <span className="mt-0.5 block text-small leading-snug text-ink-mid">
                     {batch.meals.map((item) => slotPhrase(item.scheduled_date, item.meal_type)).join(" + ")}
                     {" · "}
                     {portionPhrase(meal)}
                   </span>
                   {version && batch.meals.length === 1 ? (
-                    <span className="mt-0.5 block text-[12.5px] text-ink-mid">{version}</span>
+                    <span className="mt-0.5 block text-small text-ink-mid">{version}</span>
                   ) : null}
                 </span>
                 <ChevronRight className="h-4 w-4 shrink-0 text-ink-mid" strokeWidth={2} />

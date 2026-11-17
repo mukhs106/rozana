@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
-import { base44 } from "@/api/base44Client";
+import { db } from "@/api/db";
 import Pill from "@/components/Pill";
 import VersionTiles from "@/components/recipe/VersionTiles";
 import IngredientTable from "@/components/recipe/IngredientTable";
@@ -67,7 +67,7 @@ function MakePage() {
     return (
       <div className="mx-auto max-w-[460px] px-5 pt-16">
         <p className="eyebrow">Batch</p>
-        <h1 className="mt-2 text-[24px] font-semibold">That recipe is not here.</h1>
+        <h1 className="mt-2 text-title font-semibold">That recipe is not here.</h1>
       </div>
     );
   }
@@ -242,9 +242,9 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
     const member = { id: crypto.randomUUID(), name, is_self: false, allergies: [], diet: [], goals: {} };
     const nextMembers = [...members, member];
     if (household) {
-      await base44.entities.Household.update(household.id, { members: nextMembers });
+      await db.Household.update(household.id, { members: nextMembers });
     } else {
-      await base44.entities.Household.create({ name: `${firstNameOf(user)}’s kitchen`, members: nextMembers });
+      await db.Household.create({ name: `${firstNameOf(user)}’s kitchen`, members: nextMembers });
     }
     const nextIds = [...dinerIds, member.id];
     setDinerIds(nextIds);
@@ -321,7 +321,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
         allergens: Array.isArray(row.allergens) ? row.allergens : null,
       }));
 
-      await base44.entities.SavedVersion.create({
+      await db.SavedVersion.create({
         recipe_id: recipe.id,
         recipe_title: recipe.title,
         image_url: versionImage,
@@ -335,7 +335,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
       });
 
       if (withPlan) {
-        await base44.entities.PlannedMeal.bulkCreate(
+        await db.PlannedMeal.bulkCreate(
           groups.map((group) => ({
             recipe_id: recipe.id,
             recipe_title: recipe.title,
@@ -347,6 +347,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
             servings: group.portionTotal,
             diner_names: names,
             portions: diners.map((diner) => ({
+              diner_id: diner.id,
               diner_name: diner.name,
               servings: Number(group.portions[diner.id] ?? 1),
             })),
@@ -389,19 +390,19 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
           >
             <ChevronLeft className="h-5 w-5" strokeWidth={2} />
           </button>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-ink-mid">Make it yours</p>
-          <p className="num ml-auto pr-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-mid">
+          <p className="text-small font-semibold uppercase tracking-[0.16em] text-ink-mid">Make it yours</p>
+          <p className="num ml-auto pr-2 text-small font-semibold uppercase tracking-[0.14em] text-ink-mid">
             {formatServings(totalPortions)} servings
           </p>
         </div>
       </header>
 
       <div className="mx-auto w-full max-w-[460px] px-5 pb-40 pt-4">
-        <h1 className="text-[26px] font-semibold leading-[1.05] tracking-[-0.03em]">{recipe.title}</h1>
-        <p className="mt-1 text-[12px] font-medium text-ink-mid">{versionName}</p>
+        <h1 className="text-display font-semibold leading-[1.05] tracking-[-0.03em]">{recipe.title}</h1>
+        <p className="mt-1 text-small font-medium text-ink-mid">{versionName}</p>
 
         {prefill ? (
-          <p className="mt-3 rounded-[4px] bg-black/[0.035] p-3 text-[12px] leading-relaxed text-ink-soft">
+          <p className="mt-3 rounded-[4px] bg-black/[0.035] p-3 text-small leading-relaxed text-ink-soft">
             Your saved version is filled in. Choose dates and portions below, and today’s diners get checked again.
           </p>
         ) : null}
@@ -421,15 +422,15 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
         ) : null}
 
         <section className="mt-6 border-t border-border pt-4">
-          <p className="num text-[52px] font-semibold leading-[0.9] tracking-[-0.04em]">
+          <p className="num text-display font-semibold leading-[0.9] tracking-[-0.04em]">
             {formatServings(totalPortions)}
           </p>
-          <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-mid">
+          <p className="mt-1.5 text-small font-semibold uppercase tracking-[0.14em] text-ink-mid">
             servings total
           </p>
           <div className="mt-3 flex items-baseline gap-4">
             {portionsByType(meals).map((row) => (
-              <p key={row.type} className="text-[12px]">
+              <p key={row.type} className="text-small">
                 <span className="num font-semibold">{formatServings(row.portions)}</span>{" "}
                 <span className="uppercase tracking-[0.1em] text-ink-mid">{mealLabel(row.type)}</span>
               </p>
@@ -461,7 +462,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
         <section className="mt-7">
           <div className="flex items-baseline justify-between">
             <p className="eyebrow">Ingredients</p>
-            <p className="num text-[10px] font-medium uppercase tracking-[0.12em] text-ink-faint">
+            <p className="num text-small font-medium uppercase tracking-[0.12em] text-ink-faint">
               for {formatServings(totalPortions)}
             </p>
           </div>
@@ -481,14 +482,14 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
           </div>
           {appliedSwaps.length ? (
             <div className="mt-2 flex items-center justify-between border-t border-border pt-2">
-              <p className="text-[11.5px] leading-snug text-ink-mid">
+              <p className="text-small leading-snug text-ink-mid">
                 {appliedSwaps[appliedSwaps.length - 1].from} → {appliedSwaps[appliedSwaps.length - 1].to} for{" "}
                 {appliedSwaps[appliedSwaps.length - 1].scopeLabel.toLowerCase()}
               </p>
               <button
                 type="button"
                 onClick={() => undoSwap(appliedSwaps[appliedSwaps.length - 1].key)}
-                className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.12em] text-chili"
+                className="shrink-0 text-small font-semibold uppercase tracking-[0.12em] text-chili"
               >
                 Undo
               </button>
@@ -498,11 +499,11 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
 
         {conflicts.length || missing.length ? (
           <section className="mt-5 rounded-[4px] bg-chili/[0.06] p-3">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-chili">Check before saving</p>
+            <p className="text-small font-semibold uppercase tracking-[0.12em] text-chili">Check before saving</p>
             <div className="mt-2">
               <ConflictRows conflicts={conflicts} missing={missing} />
             </div>
-            <p className="mt-2 text-[11px] leading-snug text-ink-mid">
+            <p className="mt-2 text-small leading-snug text-ink-mid">
               Swap the ingredient, send the swap to one meal, or change who is eating.
             </p>
           </section>
@@ -511,7 +512,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
         <section className="mt-7 border-t border-border pt-4">
           <div className="flex items-baseline justify-between">
             <p className="eyebrow">Nutrient estimate</p>
-            <p className="text-[9px] font-medium uppercase tracking-[0.12em] text-ink-faint">whole batch</p>
+            <p className="text-small font-medium uppercase tracking-[0.12em] text-ink-faint">whole batch</p>
           </div>
           <div className="mt-2">
             <NutritionRow
@@ -530,10 +531,10 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
         <div className="mx-auto w-full max-w-[460px]">
           <div className="flex items-baseline justify-between gap-3">
-            <p className="text-[12px] font-semibold leading-none">
+            <p className="text-small font-semibold leading-none">
               {formatServings(totalPortions)} servings total
             </p>
-            <p className="text-[11px] leading-none text-ink-mid">{typeBreakdown(meals)}</p>
+            <p className="text-small leading-none text-ink-mid">{typeBreakdown(meals)}</p>
           </div>
           <Pill className="mt-2 w-full" onClick={() => setReviewOpen(true)}>
             Review batch

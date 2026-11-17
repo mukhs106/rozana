@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
 /* base44-workspace-fonts:start */
 @font-face {
   font-family: 'Palmeria';
@@ -23,32 +22,43 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 12% 7%;
+    --foreground: 20 15% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 20 12% 7%;
+    --card-foreground: 20 15% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 20 12% 7%;
-    --primary: 9 76% 41%;
-    --primary-foreground: 40 33% 97%;
-    --secondary: 36 22% 95%;
-    --secondary-foreground: 20 12% 12%;
-    --muted: 36 22% 95%;
-    --muted-foreground: 24 7% 44%;
-    --accent: 36 26% 94%;
-    --accent-foreground: 20 12% 12%;
-    --destructive: 9 76% 41%;
-    --destructive-foreground: 40 33% 97%;
-    --border: 30 10% 88%;
-    --input: 30 10% 88%;
-    --ring: 322 52% 28%;
-    --radius: 0.75rem;
+    --popover-foreground: 20 15% 9%;
+    --primary: 345 63% 24%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 30% 94%;
+    --secondary-foreground: 20 15% 9%;
+    --muted: 36 30% 94%;
+    --muted-foreground: 20 8% 36%;
+    --accent: 36 30% 94%;
+    --accent-foreground: 20 15% 9%;
+    --destructive: 8 72% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 14% 87%;
+    --input: 30 14% 87%;
+    --ring: 345 63% 24%;
+    --radius: 1rem;
 
-    --ink: 20 12% 7%;
-    --ink-soft: 20 9% 24%;
-    --ink-mid: 20 8% 34%;
-    --ink-faint: 20 7% 44%;
-    --chili: 9 76% 41%;
-    --chili-foreground: 40 33% 97%;
+    /* Redesign tokens (docs/REDESIGN-PLAN.md §3). Sand is the soft surface for
+       secondary pills, cards and inputs. Status colours always come with an
+       icon and a word. */
+    --sand: 36 30% 94%;
+    --status-fit: 152 45% 24%;
+    --status-fit-tint: 140 35% 93%;
+    --status-swap: 32 85% 28%;
+    --status-swap-tint: 42 80% 91%;
+    --status-cant: 8 72% 40%;
+    --status-cant-tint: 8 70% 94%;
+
+    --ink: 20 15% 9%;
+    --ink-soft: 20 10% 22%;
+    --ink-mid: 20 8% 36%;
+    --ink-faint: 20 8% 36%;
+    --chili: 345 63% 24%;
+    --chili-foreground: 0 0% 100%;
     --lagoon: 188 52% 26%;
     --dune: 38 65% 46%;
     --plum: 322 53% 28%;
@@ -58,9 +68,9 @@
     --paper: 38 48% 96%;
     --olive: 72 22% 28%;
     --portobello: 14 42% 20%;
-    --turmeric: 43 71% 57%;
+    --turmeric: 40 78% 55%;
     --fired: 16 61% 46%;
-    --oxblood: 345 63% 22%;
+    --oxblood: 345 63% 24%;
 
     /* Fixed type colors for the saturated editorial fields: they never flip
        with the theme, because the field behind them never does. */
@@ -82,11 +92,11 @@
     --chart-4: 322 53% 28%;
     --chart-5: 14 55% 54%;
 
-    --font-heading: 'Lastik Free', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Instrument Sans', system-ui, sans-serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
     --font-display: 'Palmeria', sans-serif;
-    --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    --font-mono: 'Palmeria', sans-serif;
+    --font-serif: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'Instrument Sans', system-ui, sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -105,15 +115,15 @@
     --card-foreground: 40 20% 95%;
     --popover: 22 9% 11%;
     --popover-foreground: 40 20% 95%;
-    --primary: 9 68% 56%;
-    --primary-foreground: 20 20% 8%;
+    --primary: 350 62% 72%;
+    --primary-foreground: 345 50% 12%;
     --secondary: 24 8% 16%;
     --secondary-foreground: 40 20% 95%;
     --muted: 24 8% 16%;
     --muted-foreground: 34 10% 72%;
     --accent: 24 8% 18%;
     --accent-foreground: 40 20% 95%;
-    --destructive: 9 62% 44%;
+    --destructive: 8 70% 66%;
     --destructive-foreground: 40 33% 97%;
 
     --ink: 40 22% 96%;
@@ -121,8 +131,8 @@
     --ink-mid: 36 10% 72%;
     --ink-faint: 34 8% 60%;
 
-    --chili: 9 70% 58%;
-    --chili-foreground: 20 26% 8%;
+    --chili: 350 62% 72%;
+    --chili-foreground: 345 50% 12%;
     --lagoon: 188 45% 62%;
     --dune: 38 65% 62%;
     --plum: 322 45% 68%;
@@ -133,7 +143,7 @@
     --portobello: 14 34% 30%;
     --turmeric: 43 62% 52%;
     --fired: 16 58% 50%;
-    --oxblood: 350 62% 64%;
+    --oxblood: 350 62% 72%;
 
     --cream: 34 24% 20%;
     --tile-clay: 16 50% 42%;
@@ -143,9 +153,17 @@
     --tile-thyme: 62 16% 32%;
     --tile-wine: 350 45% 30%;
 
+    --sand: 24 8% 16%;
+    --status-fit: 150 40% 66%;
+    --status-fit-tint: 152 30% 16%;
+    --status-swap: 40 75% 64%;
+    --status-swap-tint: 35 40% 16%;
+    --status-cant: 8 70% 70%;
+    --status-cant-tint: 8 40% 17%;
+
     --border: 26 8% 22%;
     --input: 26 8% 22%;
-    --ring: 9 70% 58%;
+    --ring: 350 62% 72%;
 
     --sidebar-background: 22 10% 10%;
     --sidebar-foreground: 40 18% 92%;
@@ -164,7 +182,6 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
-    font-feature-settings: "ss01" 1;
   }
 
   ::selection {
@@ -174,20 +191,26 @@
 }
 
 @layer base {
-  /* Dish and page titles carry the editorial serif; everything else stays in
-     one sans, with hierarchy coming from size, weight and space. */
+  /* One family everywhere (the Rozana script mark is the only exception).
+     Hierarchy comes from the five sizes, weight and space. */
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
+    font-family: var(--font-body);
+    font-weight: 600;
     letter-spacing: -0.01em;
+  }
+
+  /* Keyboard focus is always visible. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
   }
 }
 
 @layer components {
   .eyebrow {
-    @apply text-[11px] font-medium;
+    @apply text-small font-medium;
     color: hsl(var(--ink-mid));
   }
 

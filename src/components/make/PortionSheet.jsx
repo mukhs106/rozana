@@ -25,19 +25,19 @@ export default function PortionSheet({
         side="bottom"
         className="rounded-t-2xl border-border bg-background px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5"
       >
-        <SheetTitle className="text-[19px] font-semibold tracking-[-0.01em]">{title}</SheetTitle>
-        <SheetDescription className="mt-1 text-[12px] leading-snug text-ink-mid">
+        <SheetTitle className="text-heading font-semibold tracking-[-0.01em]">{title}</SheetTitle>
+        <SheetDescription className="mt-1 text-small leading-snug text-ink-mid">
           Half steps are fine — 1.5 for a bigger appetite.
         </SheetDescription>
 
         {onDate ? (
           <label className="mt-4 flex items-center justify-between border-t border-border py-3">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-mid">Date</span>
+            <span className="text-small font-semibold uppercase tracking-[0.12em] text-ink-mid">Date</span>
             <input
               type="date"
               value={date || ""}
               onChange={(event) => onDate(event.target.value)}
-              className="num rounded-[4px] border border-black/15 px-2 py-1 text-[12px] text-ink"
+              className="num rounded-[4px] border border-black/15 px-2 py-1 text-small text-ink"
             />
           </label>
         ) : null}
@@ -47,7 +47,7 @@ export default function PortionSheet({
             const value = Number(meal?.portions?.[diner.id] ?? 1);
             return (
               <li key={diner.id} className="flex items-center justify-between border-t border-border py-3">
-                <span className="text-[14px] font-medium">{diner.name}</span>
+                <span className="text-body font-medium">{diner.name}</span>
                 <span className="inline-flex items-center rounded-full border border-black/15">
                   <button
                     type="button"
@@ -58,7 +58,7 @@ export default function PortionSheet({
                   >
                     <Minus className="h-3.5 w-3.5" strokeWidth={2.4} />
                   </button>
-                  <span className="num min-w-[2.75rem] text-center text-[13px] font-semibold">
+                  <span className="num min-w-[2.75rem] text-center text-body font-semibold">
                     {formatServings(value)}
                   </span>
                   <button
@@ -78,13 +78,13 @@ export default function PortionSheet({
 
         <div className="mt-2 flex items-baseline justify-between border-t border-border pt-3">
           <span className="eyebrow">This meal</span>
-          <span className="num text-[16px] font-semibold">{formatServings(mealPortions(meal))} servings</span>
+          <span className="num text-body font-semibold">{formatServings(mealPortions(meal))} servings</span>
         </div>
 
         <button
           type="button"
           onClick={onReset}
-          className="mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-chili"
+          className="mt-3 text-small font-semibold uppercase tracking-[0.12em] text-chili"
         >
           1× for everyone
         </button>

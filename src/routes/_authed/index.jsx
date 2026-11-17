@@ -60,8 +60,8 @@ function TodayPage() {
         <OpenSlotCard recipe={featured} slot={slot} saved={savedFor(featured.id)} />
       ) : (
         <section className="border-t border-border pt-5">
-          <h1 className="text-[28px] leading-tight">No dishes yet</h1>
-          <p className="mt-2 text-[14px] leading-relaxed text-ink-soft">
+          <h1 className="text-display leading-tight">No dishes yet</h1>
+          <p className="mt-2 text-body leading-relaxed text-ink-soft">
             Add a recipe you already cook, or a link, and it will show up here.
           </p>
           <Pill as={Link} to="/recipes/new" search={{ mode: "link" }} className="mt-4 w-full">

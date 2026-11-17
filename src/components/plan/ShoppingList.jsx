@@ -8,8 +8,8 @@ export default function ShoppingList({ items = [], onCheck, onRemove, onClearHav
   return (
     <section id="list" className="mt-9 scroll-mt-20">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-[19px] leading-tight">Shopping list</h2>
-        <p className="num text-[12.5px] text-ink-mid">
+        <h2 className="text-heading leading-tight">Shopping list</h2>
+        <p className="num text-small text-ink-mid">
           {toBuy.length} {toBuy.length === 1 ? "item" : "items"} to buy
         </p>
       </div>
@@ -26,8 +26,8 @@ export default function ShoppingList({ items = [], onCheck, onRemove, onClearHav
               >
                 <Check className="h-3 w-3" strokeWidth={3} />
               </button>
-              <span className="min-w-0 flex-1 text-[14.5px] leading-tight">{item.label}</span>
-              <span className="num shrink-0 text-[12.5px] text-ink-mid">{formatAmount(item.qty, item.unit)}</span>
+              <span className="min-w-0 flex-1 text-body leading-tight">{item.label}</span>
+              <span className="num shrink-0 text-small text-ink-mid">{formatAmount(item.qty, item.unit)}</span>
               <button
                 type="button"
                 onClick={() => onRemove(item.ids)}
@@ -40,7 +40,7 @@ export default function ShoppingList({ items = [], onCheck, onRemove, onClearHav
           ))}
         </ul>
       ) : (
-        <p className="mt-1 border-t border-border py-3 text-[13px] leading-relaxed text-ink-mid">
+        <p className="mt-1 border-t border-border py-3 text-body leading-relaxed text-ink-mid">
           Nothing on the list yet. Add a suggestion above, or plan a batch.
         </p>
       )}
@@ -48,12 +48,12 @@ export default function ShoppingList({ items = [], onCheck, onRemove, onClearHav
       {have.length ? (
         <div className="mt-4 flex items-start justify-between gap-3 border-t border-border pt-3">
           <div>
-            <p className="text-[13px] font-medium">Already in the kitchen</p>
-            <p className="mt-1 text-[12.5px] leading-snug text-ink-mid">
+            <p className="text-body font-medium">Already in the kitchen</p>
+            <p className="mt-1 text-small leading-snug text-ink-mid">
               {have.map((item) => item.display_name).join(", ")}
             </p>
           </div>
-          <button type="button" onClick={onClearHave} className="shrink-0 text-[12.5px] font-medium text-ink-mid">
+          <button type="button" onClick={onClearHave} className="shrink-0 text-small font-medium text-ink-mid">
             Clear
           </button>
         </div>

@@ -8,8 +8,8 @@ export default function AddRecipeSheet({ open, onOpenChange }) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="rounded-t-[14px]">
         <SheetHeader className="text-left">
-          <SheetTitle className="font-serif text-[24px] font-normal">Add a recipe</SheetTitle>
-          <SheetDescription className="text-[13px] leading-relaxed">
+          <SheetTitle className="text-title">Add a recipe</SheetTitle>
+          <SheetDescription className="text-body leading-relaxed">
             Bring a link from a site you cook from, or write the recipe yourself.
           </SheetDescription>
         </SheetHeader>
@@ -23,8 +23,8 @@ export default function AddRecipeSheet({ open, onOpenChange }) {
           >
             <ClipboardPaste className="h-5 w-5 shrink-0 text-ink" />
             <span className="min-w-0 flex-1">
-              <span className="block text-[15px] font-medium">Paste a link</span>
-              <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-mid">
+              <span className="block text-body font-medium">Paste a link</span>
+              <span className="mt-0.5 block text-small leading-snug text-ink-mid">
                 We read what the page offers, then you fill the gaps.
               </span>
             </span>
@@ -38,8 +38,8 @@ export default function AddRecipeSheet({ open, onOpenChange }) {
           >
             <PenLine className="h-5 w-5 shrink-0 text-ink" />
             <span className="min-w-0 flex-1">
-              <span className="block text-[15px] font-medium">Add manually</span>
-              <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-mid">
+              <span className="block text-body font-medium">Add manually</span>
+              <span className="mt-0.5 block text-small leading-snug text-ink-mid">
                 Ingredients and method in your own words.
               </span>
             </span>

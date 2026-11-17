@@ -23,7 +23,7 @@ export default function DinerPicker({ members = [], selected = [], onToggle, onA
               key={member.id}
               type="button"
               onClick={() => onToggle(member.id)}
-              className={`rounded-full border px-3 py-1.5 text-[12px] font-medium transition-colors ${
+              className={`rounded-full border px-3 py-1.5 text-small font-medium transition-colors ${
                 active ? "border-ink bg-ink text-background" : "border-border text-ink-soft hover:border-ink-mid"
               }`}
             >
@@ -42,9 +42,9 @@ export default function DinerPicker({ members = [], selected = [], onToggle, onA
                 if (event.key === "Escape") setAdding(false);
               }}
               placeholder="Name"
-              className="w-20 bg-transparent text-[12px] outline-none placeholder:text-ink-faint"
+              className="w-20 bg-transparent text-small outline-none placeholder:text-ink-faint"
             />
-            <button type="button" onClick={submit} className="text-[10px] font-semibold uppercase tracking-[0.1em] text-chili">
+            <button type="button" onClick={submit} className="text-small font-semibold uppercase tracking-[0.1em] text-chili">
               Add
             </button>
           </span>
@@ -52,7 +52,7 @@ export default function DinerPicker({ members = [], selected = [], onToggle, onA
           <button
             type="button"
             onClick={() => setAdding(true)}
-            className="inline-flex items-center gap-1 rounded-full border border-dashed border-black/25 px-3 py-1.5 text-[12px] font-medium text-ink-mid"
+            className="inline-flex items-center gap-1 rounded-full border border-dashed border-black/25 px-3 py-1.5 text-small font-medium text-ink-mid"
           >
             <Plus className="h-3 w-3" strokeWidth={2.2} /> Add diner
           </button>

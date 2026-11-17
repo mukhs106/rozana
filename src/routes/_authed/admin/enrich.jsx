@@ -17,11 +17,11 @@ export const Route = createFileRoute("/_authed/admin/enrich")({
 function AdminEnrichPage() {
   return (
     <AppShell>
-      <Link to="/" className="text-[12.5px] font-medium text-ink-mid">
+      <Link to="/" className="text-small font-medium text-ink-mid">
         Back to Today
       </Link>
-      <h1 className="mt-2 text-[30px] leading-[1.05]">Library tools</h1>
-      <p className="mt-2 text-[12.5px] leading-relaxed text-ink-mid">
+      <h1 className="mt-2 text-display leading-[1.05]">Library tools</h1>
+      <p className="mt-2 text-small leading-relaxed text-ink-mid">
         Reads each recipe once into structured ingredients and nutrition, drafts the dishes still missing, and takes the
         whole database out as a file. Nothing already written in a recipe is changed.
       </p>

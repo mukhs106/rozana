@@ -44,19 +44,19 @@ export default function GrocerySuggestions({ batches, items, recipes, onResolve,
 
   return (
     <section className="mt-9">
-      <h2 className="text-[19px] leading-tight">Suggested for your list</h2>
+      <h2 className="text-heading leading-tight">Suggested for your list</h2>
       <ul className="mt-1">
         {suggestions.map((suggestion) => (
           <li key={suggestion.key} className="border-t border-border py-3">
             <div className="flex items-baseline justify-between gap-3">
-              <p className="text-[15px] font-medium leading-tight">{suggestion.name}</p>
+              <p className="text-body font-medium leading-tight">{suggestion.name}</p>
               {suggestion.qty ? (
-                <span className="num shrink-0 text-[12.5px] text-ink-mid">
+                <span className="num shrink-0 text-small text-ink-mid">
                   {formatAmount(suggestion.qty, suggestion.unit)}
                 </span>
               ) : null}
             </div>
-            <p className="mt-1 text-[12.5px] leading-snug text-ink-mid">
+            <p className="mt-1 text-small leading-snug text-ink-mid">
               {suggestion.reason}
               {suggestion.detail ? ` · ${suggestion.detail}` : ""}
             </p>
@@ -65,7 +65,7 @@ export default function GrocerySuggestions({ batches, items, recipes, onResolve,
                 type="button"
                 disabled={busy}
                 onClick={() => onResolve(suggestion, "to_buy")}
-                className="rounded-full bg-chili px-3 py-1.5 text-[12px] font-medium text-chili-foreground disabled:opacity-40"
+                className="rounded-full bg-chili px-3 py-1.5 text-small font-medium text-chili-foreground disabled:opacity-40"
               >
                 Add to list
               </button>
@@ -73,7 +73,7 @@ export default function GrocerySuggestions({ batches, items, recipes, onResolve,
                 type="button"
                 disabled={busy}
                 onClick={() => onResolve(suggestion, "have")}
-                className="rounded-full border border-border px-3 py-1.5 text-[12px] font-medium text-ink-soft disabled:opacity-40"
+                className="rounded-full border border-border px-3 py-1.5 text-small font-medium text-ink-soft disabled:opacity-40"
               >
                 Already have it
               </button>
@@ -81,7 +81,7 @@ export default function GrocerySuggestions({ batches, items, recipes, onResolve,
                 type="button"
                 disabled={busy}
                 onClick={() => onResolve(suggestion, "dismissed")}
-                className="rounded-full px-2.5 py-1.5 text-[12px] font-medium text-ink-mid disabled:opacity-40"
+                className="rounded-full px-2.5 py-1.5 text-small font-medium text-ink-mid disabled:opacity-40"
               >
                 Dismiss
               </button>

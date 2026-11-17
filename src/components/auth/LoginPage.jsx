@@ -8,6 +8,7 @@ import { MfaFlow } from "@/components/auth/MfaFlow";
 import { MfaScreen } from "@/components/auth/MfaParts";
 import { loginWithMfa } from "@/lib/authMfa";
 import { safeReturnTo } from "@/lib/authReturnTo";
+import { enterDemo } from "@/lib/demo";
 
 // The /login page. ?returnTo= (or the platform's ?from_url=) is where the visitor
 // goes after signing in — the login gate and the MCP consent page send people here with it.
@@ -37,6 +38,12 @@ export function LoginPage() {
     }
   }
 
+  // "Explore Rozana": sample data in this browser only, no account, no Base44 writes.
+  function explore() {
+    enterDemo();
+    window.location.assign("/");
+  }
+
   // The second sign-in step (authenticator app or text message) replaces the whole page.
   if (mfaChallenge) return <MfaScreen><MfaFlow challenge={mfaChallenge} returnTo={returnTo} /></MfaScreen>;
 
@@ -56,7 +63,7 @@ export function LoginPage() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="login-password">Password</Label>
-            <AuthLink to="/forgot-password" returnTo={returnTo} className="text-xs text-primary hover:underline">
+            <AuthLink to="/forgot-password" returnTo={returnTo} className="text-small text-primary hover:underline">
               Forgot password?
             </AuthLink>
           </div>
@@ -74,6 +81,19 @@ export function LoginPage() {
         <AuthLink to="/register" returnTo={returnTo}>
           Create one
         </AuthLink>
+      </p>
+      <div className="mt-6">
+        <OrDivider />
+      </div>
+      <button
+        type="button"
+        onClick={explore}
+        className="flex h-[52px] w-full items-center justify-center rounded-full bg-sand text-body font-semibold text-ink transition-colors hover:bg-sand/70"
+      >
+        Explore Rozana
+      </button>
+      <p className="mt-2 text-center text-small text-muted-foreground">
+        Look around with a sample family of four. No details needed, nothing is saved to an account.
       </p>
     </AuthLayout>
   );

@@ -46,20 +46,20 @@ export default function RecipeCard({ recipe, callout }) {
           className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         />
         <div className={cn("px-3 pb-2.5 pt-2", field.field, field.type)}>
-          <h3 className="truncate font-serif text-[17px] leading-tight">{recipe.title}</h3>
+          <h3 className="truncate font-semibold text-body leading-tight">{recipe.title}</h3>
           <div className="mt-1.5 flex items-center justify-between gap-2">
-            <span className="num text-[11.5px]">Serves {recipe.base_servings}</span>
+            <span className="num text-small">Serves {recipe.base_servings}</span>
             <HeatMeter level={heat.level} />
           </div>
         </div>
       </div>
 
-      <p className="num mt-1.5 text-[12px] text-ink-mid">
+      <p className="num mt-1.5 text-small text-ink-mid">
         {[minutes ? `${minutes} min` : null, versionCount > 1 ? `${versionCount} versions` : null]
           .filter(Boolean)
           .join(" · ")}
       </p>
-      {callout ? <p className="mt-0.5 text-[12px] leading-snug text-oxblood">{callout}</p> : null}
+      {callout ? <p className="mt-0.5 text-small leading-snug text-oxblood">{callout}</p> : null}
     </Link>
   );
 }

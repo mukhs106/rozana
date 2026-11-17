@@ -30,7 +30,7 @@ export default function VersionTiles({ versions = [], value, onChange, title = "
                 </span>
               ) : null}
             </span>
-            <span className={cn("block px-2 py-1.5 text-[12px] font-medium leading-tight", active ? "text-chili" : "text-ink")}>
+            <span className={cn("block px-2 py-1.5 text-small font-medium leading-tight", active ? "text-chili" : "text-ink")}>
               {title ? versionChipLabel(title, version.name) : version.name}
             </span>
           </button>

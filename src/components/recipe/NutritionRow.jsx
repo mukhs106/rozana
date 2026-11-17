@@ -13,22 +13,22 @@ const METRICS = [
 export default function NutritionRow({ nutrition, basis = "Per serving", footnote }) {
   return (
     <div>
-      <p className="text-[12.5px] text-ink-mid">{basis}</p>
+      <p className="text-small text-ink-mid">{basis}</p>
       <dl className="mt-2">
         {METRICS.map((item) => {
           const value = nutrition?.[item.key];
           const known = Number.isFinite(Number(value)) && Number(value) > 0;
           return (
             <div key={item.key} className="flex items-baseline justify-between gap-4 border-t border-border py-2">
-              <dt className="text-[13.5px] text-ink-soft">{item.label}</dt>
-              <dd className="num text-[14px] font-medium">
+              <dt className="text-body text-ink-soft">{item.label}</dt>
+              <dd className="num text-body font-medium">
                 {known ? `${value} ${item.unit}` : "Unavailable"}
               </dd>
             </div>
           );
         })}
       </dl>
-      {footnote ? <p className="mt-2 text-[12px] leading-snug text-ink-mid">{footnote}</p> : null}
+      {footnote ? <p className="mt-2 text-small leading-snug text-ink-mid">{footnote}</p> : null}
     </div>
   );
 }

@@ -36,14 +36,14 @@ export default function ExportPanel() {
 
   return (
     <section className="mt-7 border-t border-border pt-5">
-      <h2 className="text-[19px] leading-tight">Export</h2>
-      <p className="mt-1 text-[12.5px] leading-relaxed text-ink-mid">
+      <h2 className="text-heading leading-tight">Export</h2>
+      <p className="mt-1 text-small leading-relaxed text-ink-mid">
         Recipes, plans, groceries, households, saved versions, settings and user profiles in one JSON file.
       </p>
       <Pill className="mt-3 w-full" variant="outline" onClick={download} disabled={busy}>
         {busy ? "Building the file" : "Export all data"}
       </Pill>
-      {note ? <p className="mt-2 text-[11.5px] leading-snug text-ink-faint">{note}</p> : null}
+      {note ? <p className="mt-2 text-small leading-snug text-ink-faint">{note}</p> : null}
     </section>
   );
 }

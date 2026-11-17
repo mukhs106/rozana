@@ -23,11 +23,11 @@ export default function PlannedMealCard({ meal, siblings = [] }) {
         />
       </div>
 
-      <h1 className="mt-4 font-serif text-[34px] leading-[1.03]">{meal.recipe_title}</h1>
-      <p className="mt-1.5 text-[14px] leading-snug text-ink-soft">
+      <h1 className="mt-4 font-semibold text-display leading-[1.03]">{meal.recipe_title}</h1>
+      <p className="mt-1.5 text-body leading-snug text-ink-soft">
         {slotPhrase(meal.scheduled_date, meal.meal_type)} · {portionPhrase(meal)}
       </p>
-      {version ? <p className="mt-1 text-[13px] text-ink-mid">{version}</p> : null}
+      {version ? <p className="mt-1 text-body text-ink-mid">{version}</p> : null}
 
       <Pill
         as={Link}

@@ -62,6 +62,15 @@ export default {
   			clay: 'hsl(var(--clay))',
   			cream: 'hsl(var(--cream))',
   			paper: 'hsl(var(--paper))',
+  			sand: 'hsl(var(--sand))',
+  			status: {
+  				fit: 'hsl(var(--status-fit))',
+  				'fit-tint': 'hsl(var(--status-fit-tint))',
+  				swap: 'hsl(var(--status-swap))',
+  				'swap-tint': 'hsl(var(--status-swap-tint))',
+  				cant: 'hsl(var(--status-cant))',
+  				'cant-tint': 'hsl(var(--status-cant-tint))'
+  			},
   			field: {
   				ink: 'hsl(var(--field-ink))',
   				paper: 'hsl(var(--field-paper))'
@@ -96,6 +105,14 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
+  		},
+  		// The five type sizes (docs/REDESIGN-PLAN.md §3). Nothing else is used.
+  		fontSize: {
+  			display: ['28px', { lineHeight: '34px', letterSpacing: '-0.01em', fontWeight: '600' }],
+  			title: ['22px', { lineHeight: '28px', letterSpacing: '-0.01em', fontWeight: '600' }],
+  			heading: ['18px', { lineHeight: '24px', fontWeight: '600' }],
+  			body: ['16px', { lineHeight: '24px' }],
+  			small: ['14px', { lineHeight: '20px' }]
   		},
   		fontFamily: {
   			heading: ['var(--font-heading)'],

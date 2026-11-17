@@ -52,8 +52,8 @@ export default function LibraryPanel() {
 
   return (
     <section className="mt-7 border-t border-border pt-5">
-      <h2 className="text-[19px] leading-tight">Grow the library</h2>
-      <p className="mt-1 text-[12.5px] leading-relaxed text-ink-mid">
+      <h2 className="text-heading leading-tight">Grow the library</h2>
+      <p className="mt-1 text-small leading-relaxed text-ink-mid">
         {missing.length
           ? `${missing.length} of ${DRAFT_LIBRARY.length} dishes still to draft · ${data?.drafts?.length || 0} drafts waiting for review`
           : `All ${DRAFT_LIBRARY.length} dishes are drafted · ${data?.drafts?.length || 0} drafts waiting for review`}
@@ -61,10 +61,10 @@ export default function LibraryPanel() {
       <Pill className="mt-3 w-full" variant="outline" onClick={start} disabled={running || !missing.length}>
         {running ? "Writing drafts" : "Draft the missing dishes"}
       </Pill>
-      <p className="mt-2 text-[11.5px] leading-snug text-ink-faint">
+      <p className="mt-2 text-small leading-snug text-ink-faint">
         Drafts stay hidden from the library until you publish them.
       </p>
-      {note ? <p className="mt-2 text-[12px] leading-snug text-chili">{note}</p> : null}
+      {note ? <p className="mt-2 text-small leading-snug text-chili">{note}</p> : null}
       <ProgressList items={rows} />
     </section>
   );

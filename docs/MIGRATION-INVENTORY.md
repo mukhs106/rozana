@@ -6,6 +6,37 @@
 
 ---
 
+## 0. Update (Phase 1 of the redesign): the data adapter
+
+Pages no longer call `base44.entities` directly. They call **`db.X.method`** from
+`src/api/db.js`, which has the same methods (`list`, `filter`, `get`, `create`,
+`bulkCreate`, `update`, `delete`, `deleteMany`) and picks a backend per call:
+
+| Backend | When | Where data lives |
+| --- | --- | --- |
+| `base44` | signed in | Base44, exactly as before |
+| `local` | demo mode ("Explore Rozana") | browser storage key `rozana.demo.db`; never reaches Base44 (SDK analytics is off too) |
+| `local` (signed-in) | tables Base44 doesn't have yet: `Collection`, `CookLog`, `UserSettings` | browser storage key `rozana.local.db` (TODO: real tables) |
+
+**For Supabase:** add a third backend in `src/api/db.js`; the pages stay as they are. In the
+tables below, "File / Line" now points at `db.X` calls in the same files.
+
+### New data introduced by the redesign
+
+| Table / field | Shape | Today | Supabase |
+| --- | --- | --- | --- |
+| `Collection` | `{ name, recipe_ids[] }` | browser only (signed in), demo store | `collections (owner_id, name)` + `collection_recipes` |
+| `CookLog` | `{ recipe_id, planned_meal_id?, cooked_on }` (feeds the streak) | browser only | `cook_log (owner_id, recipe_id, cooked_on date)` |
+| `UserSettings` | `{ units, default_servings, auto_scale, recipe_language, staples[] }` | browser only | `user_settings (owner_id unique, …)` |
+| `PlannedMeal.portions[].diner_id` | diner id next to `diner_name` | written by new plans | keep in `portions` jsonb |
+| `Household.members[].portion` | usual portion size (0.5–2) | demo only so far | in `members` jsonb |
+| `GroceryItem.use_soon`, `.leftover`, `.use_by` | pantry flags for "Use it up" | demo only so far | columns on `grocery_items` |
+
+Fields marked "demo only so far" are not yet written for signed-in users; adding them to
+Base44 is an open decision (see `docs/REDESIGN-PLAN.md` §7.3).
+
+---
+
 ## 1. Data calls: `entities.X.method`
 
 Every read/write of the database goes through `base44.entities.<Table>.<method>`.

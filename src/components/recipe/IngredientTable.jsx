@@ -17,7 +17,7 @@ export default function IngredientTable({
   flashNames = [],
 }) {
   if (!ingredients.length) {
-    return <p className="py-3 text-[13px] text-ink-mid">No ingredients listed for this version yet.</p>;
+    return <p className="py-3 text-body text-ink-mid">No ingredients listed for this version yet.</p>;
   }
 
   return (
@@ -44,15 +44,15 @@ export default function IngredientTable({
               </span>
 
               <div className="min-w-0 flex-1">
-                <p className="text-[15px] leading-snug">{ing.name}</p>
+                <p className="text-body leading-snug">{ing.name}</p>
                 {ing.scope ? (
-                  <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
+                  <p className="mt-0.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">
                     {ing.scope.join(" · ")} only
                   </p>
                 ) : null}
-                {ing.note ? <p className="mt-0.5 text-[11.5px] leading-snug text-ink-faint">{ing.note}</p> : null}
+                {ing.note ? <p className="mt-0.5 text-small leading-snug text-ink-faint">{ing.note}</p> : null}
                 {Array.isArray(ing.allergens) && ing.allergens.length > 0 ? (
-                  <p className="mt-1 flex items-center gap-1 text-[9.5px] font-semibold uppercase tracking-[0.1em] text-plum">
+                  <p className="mt-1 flex items-center gap-1 text-small font-semibold uppercase tracking-[0.1em] text-plum">
                     <AlertCircle className="h-3 w-3" strokeWidth={2.4} />
                     contains {ing.allergens.join(", ")}
                   </p>
@@ -60,13 +60,13 @@ export default function IngredientTable({
               </div>
 
               <div className="flex shrink-0 flex-col items-end gap-1.5">
-                <span className="num text-[13.5px] font-medium leading-tight">{formatAmount(ing.qty, ing.unit)}</span>
+                <span className="num text-body font-medium leading-tight">{formatAmount(ing.qty, ing.unit)}</span>
                 {options.length ? (
                   <button
                     type="button"
                     onClick={() => onOpenSwap({ options, ingredient: ing })}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full border px-2 py-[3px] text-[9px] font-semibold uppercase tracking-[0.1em] transition-colors duration-150 motion-reduce:transition-none",
+                      "inline-flex items-center gap-1 rounded-full border px-2 py-[3px] text-small font-semibold uppercase tracking-[0.1em] transition-colors duration-150 motion-reduce:transition-none",
                       swapped ? "border-chili text-chili" : "border-border text-ink-mid hover:border-ink-mid",
                     )}
                   >

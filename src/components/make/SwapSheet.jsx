@@ -14,13 +14,13 @@ function Photo({ src, label, amount }) {
         {src ? (
           <Image src={src} alt={label} className="aspect-square w-full object-cover" />
         ) : (
-          <div className="flex aspect-square w-full items-center justify-center px-2 text-center text-[11.5px] font-medium leading-tight text-ink-mid">
+          <div className="flex aspect-square w-full items-center justify-center px-2 text-center text-small font-medium leading-tight text-ink-mid">
             {label}
           </div>
         )}
       </div>
-      <p className="mt-1.5 text-[12px] font-semibold leading-tight">{label}</p>
-      <p className="num text-[11.5px] text-ink-mid">{amount}</p>
+      <p className="mt-1.5 text-small font-semibold leading-tight">{label}</p>
+      <p className="num text-small text-ink-mid">{amount}</p>
     </div>
   );
 }
@@ -55,8 +55,8 @@ export default function SwapSheet({
         side="bottom"
         className="max-h-[92vh] overflow-y-auto rounded-t-2xl border-border bg-background px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5"
       >
-        <SheetTitle className="text-[19px] font-semibold tracking-[-0.01em]">Swap {swap.from}</SheetTitle>
-        <SheetDescription className="mt-1 text-[12px] leading-snug text-ink-mid">{swap.affects}</SheetDescription>
+        <SheetTitle className="text-heading font-semibold tracking-[-0.01em]">Swap {swap.from}</SheetTitle>
+        <SheetDescription className="mt-1 text-small leading-snug text-ink-mid">{swap.affects}</SheetDescription>
 
         <div className="mt-4 flex items-start gap-2">
           <Photo src={images.from} label={swap.from} amount={fromAmount} />
@@ -77,7 +77,7 @@ export default function SwapSheet({
                   onClick={() => onSelect(option.key)}
                   aria-pressed={option.key === value}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-[11.5px] font-medium transition-colors duration-150 motion-reduce:transition-none",
+                    "rounded-full border px-3 py-1.5 text-small font-medium transition-colors duration-150 motion-reduce:transition-none",
                     option.key === value
                       ? "border-chili bg-chili text-chili-foreground"
                       : "border-border text-ink-soft hover:border-ink-mid",
@@ -100,7 +100,7 @@ export default function SwapSheet({
                   type="button"
                   onClick={() => onScope(option.value)}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-[11.5px] font-medium transition-colors duration-150 motion-reduce:transition-none",
+                    "rounded-full border px-3 py-1.5 text-small font-medium transition-colors duration-150 motion-reduce:transition-none",
                     scope === option.value
                       ? "border-chili bg-chili text-chili-foreground"
                       : "border-border text-ink-soft hover:border-ink-mid",
@@ -114,8 +114,8 @@ export default function SwapSheet({
         ) : null}
 
         <div className="mt-4 rounded-[8px] bg-secondary p-3">
-          <p className="text-[13px] font-medium">What changes</p>
-          <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-soft">
+          <p className="text-body font-medium">What changes</p>
+          <p className="mt-1.5 text-small leading-relaxed text-ink-soft">
             {swap.from} becomes {swap.to}
             {removes.length || adds.length
               ? `. ${removes.length ? `Leaves out ${removes.join(", ").toLowerCase()}` : ""}${
@@ -124,13 +124,13 @@ export default function SwapSheet({
               : "."}
           </p>
           {swap.method_change ? (
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-mid">{swap.method_change}</p>
+            <p className="mt-1.5 text-small leading-relaxed text-ink-mid">{swap.method_change}</p>
           ) : null}
-          {setAside ? <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-mid">{setAside}</p> : null}
+          {setAside ? <p className="mt-1.5 text-small leading-relaxed text-ink-mid">{setAside}</p> : null}
           {warnings.length ? (
             <ul className="mt-2 space-y-1">
               {warnings.map((warning) => (
-                <li key={warning} className="text-[12.5px] font-medium leading-snug text-oxblood">
+                <li key={warning} className="text-small font-medium leading-snug text-oxblood">
                   Still unresolved: {warning}
                 </li>
               ))}

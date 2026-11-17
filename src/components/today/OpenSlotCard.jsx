@@ -33,8 +33,8 @@ export default function OpenSlotCard({ recipe, slot, saved = [] }) {
         />
       </div>
 
-      <h1 className="mt-4 font-serif text-[34px] leading-[1.03]">{recipe.title}</h1>
-      <p className="mt-1.5 text-[14px] leading-snug text-ink-soft">
+      <h1 className="mt-4 font-semibold text-display leading-[1.03]">{recipe.title}</h1>
+      <p className="mt-1.5 text-body leading-snug text-ink-soft">
         {slotPhrase(slot.date, slot.type)} is open
         {minutes ? ` · ${minutes} min` : ""}
         {` · ${heat.label}`}
@@ -52,7 +52,7 @@ export default function OpenSlotCard({ recipe, slot, saved = [] }) {
                   onClick={() => setVersionKey(version.key)}
                   aria-pressed={selected}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-colors",
+                    "rounded-full border px-3 py-1.5 text-small font-medium transition-colors",
                     selected ? "border-oxblood bg-oxblood text-field-paper" : "border-border text-ink-mid hover:border-ink-mid",
                   )}
                 >
@@ -62,7 +62,7 @@ export default function OpenSlotCard({ recipe, slot, saved = [] }) {
             })}
           </div>
           {active?.summary ? (
-            <p className="mt-2 text-[12.5px] leading-snug text-ink-mid">{active.summary}</p>
+            <p className="mt-2 text-small leading-snug text-ink-mid">{active.summary}</p>
           ) : null}
         </div>
       ) : null}
@@ -72,7 +72,7 @@ export default function OpenSlotCard({ recipe, slot, saved = [] }) {
           to="/make/$recipeId"
           params={{ recipeId: recipe.id }}
           search={{ from: again.id }}
-          className="mt-4 flex items-center gap-2 border-t border-border py-3 text-[13.5px] font-medium text-chili"
+          className="mt-4 flex items-center gap-2 border-t border-border py-3 text-body font-medium text-chili"
         >
           <RotateCcw className="h-4 w-4" strokeWidth={2.2} />
           Make your {againName || recipe.title.toLowerCase()} again
@@ -93,7 +93,7 @@ export default function OpenSlotCard({ recipe, slot, saved = [] }) {
         to="/recipes/$recipeId"
         params={{ recipeId: recipe.id }}
         search={active ? { version: active.key } : {}}
-        className="mt-3 block text-center text-[13px] text-ink-mid"
+        className="mt-3 block text-center text-body text-ink-mid"
       >
         See the recipe
       </Link>

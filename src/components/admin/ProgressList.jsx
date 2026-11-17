@@ -19,8 +19,8 @@ export default function ProgressList({ items = [] }) {
         const state = STATES[item.state] || STATES.waiting;
         return (
           <li key={item.key} className="flex items-baseline gap-3 border-t border-border py-2">
-            <span className="min-w-0 flex-1 truncate text-[13.5px] leading-snug">{item.label}</span>
-            <span className={cn("shrink-0 text-[11.5px] font-medium", state.className)}>
+            <span className="min-w-0 flex-1 truncate text-body leading-snug">{item.label}</span>
+            <span className={cn("shrink-0 text-small font-medium", state.className)}>
               {item.state === "running" ? "Reading…" : state.label}
             </span>
           </li>

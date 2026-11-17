@@ -59,7 +59,7 @@ function RecipeDetailPage() {
   if (!recipe) {
     return (
       <AppShell>
-        <h1 className="mt-2 text-[26px] leading-tight">This recipe is no longer here.</h1>
+        <h1 className="mt-2 text-display leading-tight">This recipe is no longer here.</h1>
         <Pill as={Link} to="/recipes" variant="outline" className="mt-5">
           Back to recipes
         </Pill>
@@ -178,11 +178,11 @@ function RecipeDetailPage() {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3">
-        <Link to="/recipes" className="inline-flex items-center gap-1 text-[13px] text-ink-mid">
+        <Link to="/recipes" className="inline-flex items-center gap-1 text-body text-ink-mid">
           <ChevronLeft className="h-4 w-4" strokeWidth={2.2} /> Recipes
         </Link>
         {recipe.tags?.length ? (
-          <p className="flex flex-wrap justify-end gap-x-2 text-[12px] text-ink-mid">
+          <p className="flex flex-wrap justify-end gap-x-2 text-small text-ink-mid">
             {recipe.tags.slice(0, 3).map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
@@ -190,9 +190,9 @@ function RecipeDetailPage() {
         ) : null}
       </div>
 
-      <h1 className="mt-2 font-serif text-[40px] leading-[0.98]">{recipe.title}</h1>
+      <h1 className="mt-2 font-semibold text-display leading-[0.98]">{recipe.title}</h1>
 
-      <p className="num mt-2 flex items-center gap-1.5 text-[14px] text-ink-soft">
+      <p className="num mt-2 flex items-center gap-1.5 text-body text-ink-soft">
         <span>Serves {formatServings(portions)}</span>
         {minutes ? <span>· {minutes} min</span> : null}
         <span>· {heat.label}</span>
@@ -210,7 +210,7 @@ function RecipeDetailPage() {
 
       {recipe.variations?.length ? (
         <section className="mt-5">
-          <h2 className="text-[15px] font-medium">Versions you can cook</h2>
+          <h2 className="text-body font-medium">Versions you can cook</h2>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {recipe.variations.map((item) => {
               const selected = item.key === versionKey;
@@ -221,7 +221,7 @@ function RecipeDetailPage() {
                   onClick={() => pickVersion(item.key)}
                   aria-pressed={selected}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-colors",
+                    "rounded-full border px-3 py-1.5 text-small font-medium transition-colors",
                     selected
                       ? "border-oxblood bg-oxblood text-field-paper"
                       : "border-border text-ink-mid hover:border-ink-mid",
@@ -232,7 +232,7 @@ function RecipeDetailPage() {
               );
             })}
           </div>
-          {version?.summary ? <p className="mt-2 text-[13px] leading-snug text-ink-mid">{version.summary}</p> : null}
+          {version?.summary ? <p className="mt-2 text-body leading-snug text-ink-mid">{version.summary}</p> : null}
         </section>
       ) : null}
 
@@ -243,12 +243,12 @@ function RecipeDetailPage() {
         onPickVersion={pickVersion}
       />
 
-      <p className="mt-4 text-[14.5px] leading-relaxed text-ink-soft">{version?.summary || recipe.description}</p>
+      <p className="mt-4 text-body leading-relaxed text-ink-soft">{version?.summary || recipe.description}</p>
 
       <section className="mt-6 flex items-center justify-between gap-3 border-t border-border pt-4">
         <div>
-          <p className="text-[15px] font-medium">How much are you cooking?</p>
-          <p className="mt-0.5 text-[12.5px] leading-snug text-ink-mid">
+          <p className="text-body font-medium">How much are you cooking?</p>
+          <p className="mt-0.5 text-small leading-snug text-ink-mid">
             {formatServings(portions)} {portions === 1 ? "portion" : "portions"} in this batch. The recipe makes{" "}
             {recipe.base_servings}.
           </p>
@@ -258,8 +258,8 @@ function RecipeDetailPage() {
 
       <section className="mt-7">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-[19px] leading-tight">Ingredients</h2>
-          <p className="num text-[12.5px] text-ink-mid">
+          <h2 className="text-heading leading-tight">Ingredients</h2>
+          <p className="num text-small text-ink-mid">
             for {formatServings(portions)} {portions === 1 ? "portion" : "portions"}
           </p>
         </div>
@@ -276,7 +276,7 @@ function RecipeDetailPage() {
           <button
             type="button"
             onClick={() => setShowAllIngredients((shown) => !shown)}
-            className="mt-1 text-[13px] font-medium text-chili"
+            className="mt-1 text-body font-medium text-chili"
           >
             {showAllIngredients ? "Show fewer ingredients" : `Show all ${ingredients.length} ingredients`}
           </button>
@@ -285,7 +285,7 @@ function RecipeDetailPage() {
 
       {conflicts.length || missing.length ? (
         <section className="mt-5 rounded-[8px] bg-chili/[0.06] p-3">
-          <p className="text-[13px] font-semibold text-chili">For your kitchen</p>
+          <p className="text-body font-semibold text-chili">For your kitchen</p>
           <div className="mt-2">
             <ConflictRows conflicts={conflicts} missing={missing} />
           </div>
@@ -293,26 +293,26 @@ function RecipeDetailPage() {
       ) : null}
 
       <section className="mt-7">
-        <h2 className="text-[19px] leading-tight">Method</h2>
+        <h2 className="text-heading leading-tight">Method</h2>
         <ol className="mt-2">
           {instructions.map((step, index) => (
             <li key={index} className="flex gap-3 border-t border-border py-3">
-              <span className="num shrink-0 text-[12.5px] font-semibold text-chili">{index + 1}</span>
-              <span className="text-[14px] leading-relaxed text-ink-soft">{step}</span>
+              <span className="num shrink-0 text-small font-semibold text-chili">{index + 1}</span>
+              <span className="text-body leading-relaxed text-ink-soft">{step}</span>
             </li>
           ))}
         </ol>
       </section>
 
       <section className="mt-7 border-t border-border pt-4">
-        <h2 className="text-[19px] leading-tight">Per serving</h2>
+        <h2 className="text-heading leading-tight">Per serving</h2>
         <div className="mt-2">
           <NutritionRow nutrition={perServing} basis={`One of ${formatServings(portions)} portions`} />
         </div>
       </section>
 
       {recipe.source_url ? (
-        <p className="mt-6 break-words border-t border-border pt-3 text-[12px] text-ink-mid">
+        <p className="mt-6 break-words border-t border-border pt-3 text-small text-ink-mid">
           Saved from {recipe.source_url}
         </p>
       ) : null}

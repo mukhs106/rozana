@@ -50,8 +50,8 @@ export default function EnrichPanel() {
 
   return (
     <section className="mt-7 border-t border-border pt-5">
-      <h2 className="text-[19px] leading-tight">Existing recipes</h2>
-      <p className="mt-1 text-[12.5px] leading-relaxed text-ink-mid">
+      <h2 className="text-heading leading-tight">Existing recipes</h2>
+      <p className="mt-1 text-small leading-relaxed text-ink-mid">
         {isLoading
           ? "Checking the library"
           : `${pending.length} without structured ingredients · ${data?.enriched || 0} enriched${
@@ -61,7 +61,7 @@ export default function EnrichPanel() {
       <Pill className="mt-3 w-full" onClick={start} disabled={running || isLoading || !pending.length}>
         {running ? "Reading recipes" : pending.length ? `Enrich ${pending.length} recipes` : "All recipes read"}
       </Pill>
-      {note ? <p className="mt-2 text-[12px] leading-snug text-chili">{note}</p> : null}
+      {note ? <p className="mt-2 text-small leading-snug text-chili">{note}</p> : null}
       <ProgressList items={rows} />
     </section>
   );

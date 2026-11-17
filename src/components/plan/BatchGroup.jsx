@@ -27,12 +27,12 @@ export default function BatchGroup({ batch, conflicts = [], onRemove }) {
             to="/recipes/$recipeId"
             params={{ recipeId: batch.recipe_id }}
             search={{ version: batch.version_key, portions: batch.meals[0]?.servings }}
-            className="block font-serif text-[19px] leading-tight"
+            className="block font-semibold text-heading leading-tight"
           >
             {batch.recipe_title}
           </Link>
-          {version ? <p className="mt-0.5 text-[12.5px] text-ink-mid">{version}</p> : null}
-          <p className="mt-0.5 text-[12.5px] text-ink-mid">
+          {version ? <p className="mt-0.5 text-small text-ink-mid">{version}</p> : null}
+          <p className="mt-0.5 text-small text-ink-mid">
             {batch.meals.length > 1
               ? `One batch across ${batch.meals.length} meals · ${formatServings(batch.servings)} portions`
               : portionPhrase(batch.meals[0])}
@@ -44,7 +44,7 @@ export default function BatchGroup({ batch, conflicts = [], onRemove }) {
         {batch.meals.map((meal) => {
           const Icon = meal.meal_type === "lunch" ? LunchboxIcon : PlateIcon;
           return (
-            <li key={meal.id} className="flex items-center gap-2 border-t border-border py-2 text-[13px]">
+            <li key={meal.id} className="flex items-center gap-2 border-t border-border py-2 text-body">
               <Icon className="h-4 w-4 shrink-0 text-ink-mid" />
               <span className="min-w-0 flex-1 leading-snug">
                 {slotPhrase(meal.scheduled_date, meal.meal_type)}

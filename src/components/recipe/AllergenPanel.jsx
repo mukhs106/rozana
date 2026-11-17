@@ -30,7 +30,7 @@ export default function AllergenPanel({ recipe, versionKey, household, onPickVer
     <section className="mt-5 border-t border-border pt-4">
       {mine.length ? (
         <div className="mb-3 rounded-[8px] border border-oxblood/40 p-3">
-          <p className="text-[13px] font-semibold leading-snug text-oxblood">
+          <p className="text-body font-semibold leading-snug text-oxblood">
             On your household list: {mine.join(", ")}.
           </p>
           {suggestion?.kind === "version" ? (
@@ -38,12 +38,12 @@ export default function AllergenPanel({ recipe, versionKey, household, onPickVer
               <Pill variant="outline" size="sm" onClick={() => onPickVersion(suggestion.key)}>
                 Preview {suggestion.label}
               </Pill>
-              <span className="text-[12px] leading-snug text-ink-mid">{suggestion.why}</span>
+              <span className="text-small leading-snug text-ink-mid">{suggestion.why}</span>
             </div>
           ) : suggestion ? (
-            <p className="mt-1 text-[12.5px] leading-snug text-ink-mid">{suggestion.why}</p>
+            <p className="mt-1 text-small leading-snug text-ink-mid">{suggestion.why}</p>
           ) : (
-            <p className="mt-1 text-[12.5px] leading-snug text-ink-mid">
+            <p className="mt-1 text-small leading-snug text-ink-mid">
               No version of this dish clears it. Swap an ingredient below or pick another dish.
             </p>
           )}
@@ -52,7 +52,7 @@ export default function AllergenPanel({ recipe, versionKey, household, onPickVer
 
       <AllergenSummary report={report} />
 
-      <p className="mt-2 text-[12.5px] leading-snug text-ink-mid">
+      <p className="mt-2 text-small leading-snug text-ink-mid">
         {report.none ? (
           <>
             <span className="font-semibold text-ink">Check ingredients:</span> nothing in this dish carries an
@@ -71,19 +71,19 @@ export default function AllergenPanel({ recipe, versionKey, household, onPickVer
       </p>
 
       {rules.spice === "mild" && heat.level > 1 ? (
-        <p className="mt-1.5 text-[12.5px] leading-snug text-ink-mid">
+        <p className="mt-1.5 text-small leading-snug text-ink-mid">
           Spice tolerance is set to mild: this dish is {heat.label.toLowerCase()}, so use less chilli for the household
           portions and finish yours separately.
         </p>
       ) : null}
 
       <details className="mt-2">
-        <summary className="cursor-pointer text-[13px] font-medium text-ink">Full ingredient information</summary>
+        <summary className="cursor-pointer text-body font-medium text-ink">Full ingredient information</summary>
         <ul className="mt-2">
           {ingredients.map((ingredient, index) => (
             <li
               key={`${ingredient.name}-${index}`}
-              className="flex items-start justify-between gap-3 border-t border-border py-1.5 text-[12.5px]"
+              className="flex items-start justify-between gap-3 border-t border-border py-1.5 text-small"
             >
               <span className="min-w-0">{ingredient.name}</span>
               <span className="shrink-0 text-right text-ink-mid">

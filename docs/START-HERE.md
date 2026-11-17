@@ -102,7 +102,9 @@ rozana/
 │   ├── hooks/             ← reusable JS functions that load data (e.g. useKitchen.js)
 │   ├── lib/               ← plain JS helpers (maths, text, server code)
 │   ├── assets/fonts/      ← the custom font files
-│   └── api/base44Client.js ← connection to Base44 (don't move it)
+│   └── api/
+│       ├── base44Client.js ← connection to Base44 (don't move it)
+│       └── db.js          ← THE way pages read/write data (Base44 or demo)
 │
 ├── tailwind.config.js     ← turns your CSS variables into class names (bg-chili, text-ink …)
 ├── base44/entities/       ← database table definitions (one file per table)
@@ -133,7 +135,14 @@ To use a colour you'd normally write `color: var(--chili)`. In this project you
 usually write a **Tailwind class** instead: `text-chili`, `bg-paper`, `border-turmeric`.
 The names come from `tailwind.config.js` → `colors`. A new colour needs adding in both files.
 
-### Fonts: also `src/index.css`
+### Fonts (redesign)
+
+One family for the whole interface: **Instrument Sans** (linked in `src/routes/__root.jsx`).
+Only the Rozana logo keeps its script face (Palmeria, `--font-display`). Text sizes are five
+named classes from `tailwind.config.js`: `text-display` (28), `text-title` (22),
+`text-heading` (18), `text-body` (16), `text-small` (14). Use these instead of `text-[13px]`.
+
+### Fonts (older notes): also `src/index.css`
 
 - Line 1: the Google Fonts `@import` (Inter, Instrument Serif)
 - Lines 2–17: the custom fonts (Palmeria, Lastik Free) loaded from `src/assets/fonts/`

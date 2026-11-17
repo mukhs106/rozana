@@ -10,12 +10,14 @@ import SavedVersionList from "@/components/profile/SavedVersionList";
 import FoodRulesSection from "@/components/profile/FoodRulesSection";
 import PreferencesSection from "@/components/profile/PreferencesSection";
 import SettingsRow from "@/components/settings/SettingsRow";
-import { base44 } from "@/api/base44Client";
+import { db } from "@/api/db";
 import { APP_NAME_KEY, useAppName } from "@/hooks/useAppName";
 import { usePrefs } from "@/hooks/usePrefs";
 import { firstNameOf, membersOf, useHousehold, useSavedVersions } from "@/hooks/useKitchen";
 import { APP_VERSION } from "@/lib/appVersion";
 import { useAuth } from "@/lib/AuthContext";
+import FeedbackSheet from "@/components/FeedbackSheet";
+import { leaveDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/_authed/profile")({
   ssr: false,
@@ -37,17 +39,24 @@ function ProfilePage() {
   const [editing, setEditing] = useState(null);
   const [nameDraft, setNameDraft] = useState(appName);
   const [savingName, setSavingName] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const demo = Boolean(user?.is_demo);
+
+  const exitDemo = () => {
+    leaveDemo();
+    window.location.assign("/login");
+  };
 
   useEffect(() => setNameDraft(appName), [appName]);
 
   const saveHousehold = async (patch, nextMembers) => {
     if (household) {
-      await base44.entities.Household.update(household.id, {
+      await db.Household.update(household.id, {
         ...patch,
         ...(nextMembers ? { members: nextMembers } : {}),
       });
     } else {
-      await base44.entities.Household.create({
+      await db.Household.create({
         name: `${firstNameOf(user)}’s kitchen`,
         members: nextMembers || members,
         ...patch,
@@ -68,7 +77,7 @@ function ProfilePage() {
   };
 
   const removeVersion = async (version) => {
-    await base44.entities.SavedVersion.delete(version.id);
+    await db.SavedVersion.delete(version.id);
     await queryClient.invalidateQueries({ queryKey: ["saved-versions"] });
   };
 
@@ -77,11 +86,11 @@ function ProfilePage() {
     if (!value) return;
     setSavingName(true);
     try {
-      const rows = await base44.entities.AppSetting.filter({ key: APP_NAME_KEY });
+      const rows = await db.AppSetting.filter({ key: APP_NAME_KEY });
       if (rows?.[0]) {
-        await base44.entities.AppSetting.update(rows[0].id, { value });
+        await db.AppSetting.update(rows[0].id, { value });
       } else {
-        await base44.entities.AppSetting.create({ key: APP_NAME_KEY, value, label: "App name" });
+        await db.AppSetting.create({ key: APP_NAME_KEY, value, label: "App name" });
       }
       await queryClient.invalidateQueries({ queryKey: ["app-name"] });
       toast.success("Name updated");
@@ -92,8 +101,15 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <h1 className="text-[30px] leading-tight">{user?.full_name || user?.email}</h1>
-      <p className="mt-1 text-[13px] text-ink-mid">{user?.email}</p>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="text-display leading-tight">{user?.full_name || user?.email}</h1>
+          {demo ? null : <p className="mt-1 text-body text-ink-mid">{user?.email}</p>}
+        </div>
+        <Pill variant="soft" size="sm" onClick={() => setFeedbackOpen(true)} className="shrink-0">
+          Feedback
+        </Pill>
+      </div>
 
       <FoodRulesSection
         members={members}
@@ -111,14 +127,14 @@ function ProfilePage() {
       />
 
       <section className="mt-9">
-        <h2 className="text-[19px] leading-tight">Saved versions</h2>
+        <h2 className="text-heading leading-tight">Saved versions</h2>
         <SavedVersionList versions={saved} onRemove={removeVersion} />
       </section>
 
       <PreferencesSection prefs={prefs} update={update} />
 
       <section className="mt-9">
-        <h2 className="text-[19px] leading-tight">General</h2>
+        <h2 className="text-heading leading-tight">General</h2>
         <div className="mt-1">
           <SettingsRow label="Privacy choices" to="/info/$topic" params={{ topic: "privacy-choices" }} />
           <SettingsRow label="Privacy policy" to="/info/$topic" params={{ topic: "privacy-policy" }} />
@@ -128,8 +144,11 @@ function ProfilePage() {
       </section>
 
       <section className="mt-9">
-        <h2 className="text-[19px] leading-tight">Support and tools</h2>
+        <h2 className="text-heading leading-tight">Support and tools</h2>
         <div className="mt-1">
+          <SettingsRow label="Our story" to="/info/$topic" params={{ topic: "our-story" }} />
+          <SettingsRow label="How swaps and allergy checks work" to="/info/$topic" params={{ topic: "how-checks-work" }} />
+          <SettingsRow label="Send feedback" onClick={() => setFeedbackOpen(true)} />
           <SettingsRow label="Report a bug" to="/info/$topic" params={{ topic: "report-a-bug" }} />
           <SettingsRow label="FAQs" to="/info/$topic" params={{ topic: "faq" }} />
           <SettingsRow label="About Rozana" to="/info/$topic" params={{ topic: "about" }} />
@@ -144,7 +163,7 @@ function ProfilePage() {
             <input
               value={nameDraft}
               onChange={(event) => setNameDraft(event.target.value)}
-              className="w-full border-b border-black/15 bg-transparent pb-1 text-[15px] font-medium outline-none"
+              className="w-full border-b border-black/15 bg-transparent pb-1 text-body font-medium outline-none"
               placeholder="Rozana"
             />
             <Pill variant="outline" size="sm" onClick={saveAppName} disabled={savingName}>
@@ -155,19 +174,33 @@ function ProfilePage() {
       ) : null}
 
       <section className="mt-9">
-        <h2 className="text-[19px] leading-tight">Account</h2>
+        <h2 className="text-heading leading-tight">Account</h2>
         <div className="mt-1">
-          <SettingsRow
-            icon={ShieldCheck}
-            label="Account & sign-in"
-            hint="Two-factor authentication and password"
-            to="/mfa"
-            params={undefined}
-          />
-          <SettingsRow icon={LogOut} label="Sign out" tone="danger" onClick={() => logout()} />
+          {demo ? (
+            <SettingsRow
+              icon={LogOut}
+              label="Leave demo"
+              hint="Removes the sample data from this browser"
+              tone="danger"
+              onClick={exitDemo}
+            />
+          ) : (
+            <>
+              <SettingsRow
+                icon={ShieldCheck}
+                label="Account & sign-in"
+                hint="Two-factor authentication and password"
+                to="/mfa"
+                params={undefined}
+              />
+              <SettingsRow icon={LogOut} label="Sign out" tone="danger" onClick={() => logout()} />
+            </>
+          )}
         </div>
-        <p className="num mt-4 text-center text-[11.5px] text-ink-mid">Rozana {APP_VERSION}</p>
+        <p className="num mt-4 text-center text-small text-ink-mid">Rozana {APP_VERSION}</p>
       </section>
+
+      <FeedbackSheet open={feedbackOpen} onOpenChange={setFeedbackOpen} user={user} />
 
       <MemberDialog
         open={dialogOpen}

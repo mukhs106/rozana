@@ -72,8 +72,8 @@ export default function CookingClip({ clip, autoplay = false, className }) {
           {playing ? <Pause className="h-4 w-4" strokeWidth={2.4} /> : <Play className="ml-0.5 h-4 w-4" strokeWidth={2.4} />}
         </button>
       </div>
-      <p className="mt-2 text-[13px] font-medium leading-snug">{clip.title}</p>
-      <p className="mt-0.5 text-[13px] leading-relaxed text-ink-mid">{clip.job}</p>
+      <p className="mt-2 text-body font-medium leading-snug">{clip.title}</p>
+      <p className="mt-0.5 text-body leading-relaxed text-ink-mid">{clip.job}</p>
     </section>
   );
 }

@@ -21,9 +21,9 @@ export default function Stepper({ value, onChange, min = 1, max = 12, step = 1, 
       >
         <Minus className="h-4 w-4" strokeWidth={2} />
       </button>
-      <span className="num min-w-[4.25rem] text-center text-[15px] font-semibold">
+      <span className="num min-w-[4.25rem] text-center text-body font-semibold">
         {Number.isInteger(value) ? value : value.toFixed(2).replace(/0$/, "")}
-        <span className="ml-1 text-[11.5px] font-normal text-ink-mid">{label}</span>
+        <span className="ml-1 text-small font-normal text-ink-mid">{label}</span>
       </span>
       <button
         type="button"

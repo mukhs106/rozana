@@ -12,7 +12,7 @@ export function AllergenChip({ kind, label, muted = false, className }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-2 py-[3px] text-[11.5px] font-medium",
+        "inline-flex items-center gap-1.5 rounded-full border px-2 py-[3px] text-small font-medium",
         muted ? "border-border text-ink-mid" : "border-oxblood bg-oxblood text-field-paper",
         className,
       )}

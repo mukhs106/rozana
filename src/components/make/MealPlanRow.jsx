@@ -20,16 +20,16 @@ export default function MealPlanRow({ meal, label, dinersLine, swaps = [], flash
         <Icon className="h-[18px] w-[18px]" />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[13.5px] font-semibold leading-tight">{label}</span>
-        <span className="mt-0.5 block truncate text-[11.5px] leading-snug text-ink-mid">{dinersLine}</span>
+        <span className="block text-body font-semibold leading-tight">{label}</span>
+        <span className="mt-0.5 block truncate text-small leading-snug text-ink-mid">{dinersLine}</span>
         {swaps.length ? (
-          <span className="mt-1 inline-flex items-center gap-1 text-[9.5px] font-semibold uppercase tracking-[0.1em] text-chili">
+          <span className="mt-1 inline-flex items-center gap-1 text-small font-semibold uppercase tracking-[0.1em] text-chili">
             <SwapIcon className="h-3 w-3" /> {swaps.join(", ")}
           </span>
         ) : null}
       </span>
-      <span className="num shrink-0 text-[15px] font-semibold leading-none">{formatServings(mealPortions(meal))}</span>
-      <span className="flex shrink-0 items-center gap-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
+      <span className="num shrink-0 text-body font-semibold leading-none">{formatServings(mealPortions(meal))}</span>
+      <span className="flex shrink-0 items-center gap-0.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">
         Edit
         <ChevronRight className="h-3.5 w-3.5" strokeWidth={2.4} />
       </span>
