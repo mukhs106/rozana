@@ -50,6 +50,15 @@
           },
           "servings": {
             "type": "number"
+          },
+          "diner_id": {
+            "type": "string"
+          },
+          "swap_keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       }
@@ -105,6 +114,15 @@
           "type": "number"
         }
       }
+    },
+    "any_day": {
+      "type": "boolean"
+    },
+    "note": {
+      "type": "string"
+    },
+    "cooked_on": {
+      "type": "string"
     }
   },
   "rls": {

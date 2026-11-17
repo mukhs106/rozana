@@ -70,7 +70,7 @@ export function membersOf(household, user) {
 export const SETTINGS_DEFAULTS = {
   units: "recipe",
   default_servings: 4,
-  auto_scale: false,
+  auto_scale: true,
   recipe_language: "en",
   staples: ["salt", "oil", "cumin seeds", "turmeric", "red chilli powder", "garam masala"],
 };

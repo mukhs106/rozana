@@ -340,5 +340,10 @@ spare portions for a tiffin or the freezer. "Cook" opens a step-by-step view tha
 | 4 | `phase-4-plan-groceries` | Week view, meal sheet, Groceries tab, pantry, order sheet, list bug fixes (single batch, no 6-item cap, one heading) | — |
 | 5 | `phase-5-profile` | Table-first profile, units, servings, language, staples, streak, reminders, household (soon), about, account | Final report |
 
+**Phase 4–5 as built.** Plan meals keep each person's swaps, so Groceries can show "+ 200 g firm tofu
+for Arjun". "Any day this week" meals are stored on that week's Monday with `any_day: true`.
+"Scale recipes to my table" is on by default; off, a batch starts at your default size and the extra
+shows as spare portions. Diners gained a usual-portion setting (½ to 2).
+
 Each phase ends with `npm run lint` and `npm run build`, then merges to `main`.
 Untouched throughout: `src/routeTree.gen.ts`, `src/server.js`, `src/lib/error-capture*.js`.

@@ -136,7 +136,7 @@ function RecipeView({ recipe: original }) {
   });
   const [portions, setPortions] = useState({});
   const [chosen, setChosen] = useState([]);
-  const [spare, setSpare] = useState(0);
+  const [spareChoice, setSpare] = useState(null); // null = follow Settings → Servings
   const [sheet, setSheet] = useState(null);
   const [busy, setBusy] = useState(false);
   const [swapOptions, setSwapOptions] = useState([]);
@@ -148,6 +148,11 @@ function RecipeView({ recipe: original }) {
   const defaultIds = canEatIds.length ? canEatIds : members.map((member) => member.id);
   const seated = members.filter((member) => (seatedIds || defaultIds).includes(member.id));
   const rows = tableRows(recipe, seated, portions, chosen, versionKey);
+  // Scaling to the table is the default. With it off, a batch starts at your
+  // default size and the difference shows as spare portions.
+  const tablePortions = rows.reduce((total, row) => total + row.portion, 0);
+  const spare =
+    spareChoice ?? (settings?.auto_scale === false ? Math.max(0, (settings?.default_servings || 4) - tablePortions) : 0);
   const maths = batchMaths(rows, spare, Number(recipe.base_servings) || 4);
   const units = settings?.units || "recipe";
   const ingredients = convertRows(batchIngredients(recipe, rows, chosen, spare, versionKey), units);

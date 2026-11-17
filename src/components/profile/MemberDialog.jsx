@@ -13,16 +13,21 @@ const blank = () => ({
   avoid: [],
   dislikes: [],
   spice: "medium",
+  portion: 1,
   goals: {},
 });
+
+const PORTIONS = [0.5, 0.75, 1, 1.5, 2];
+const PORTION_WORDS = { 0.5: "½", 0.75: "¾", 1: "1", 1.5: "1½", 2: "2" };
 
 function Chip({ active, children, onClick }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-2.5 py-1 text-small font-medium transition-colors ${
-        active ? "border-oxblood bg-oxblood text-paper" : "border-black/15 text-ink-mid"
+      aria-pressed={Boolean(active)}
+      className={`h-11 rounded-full px-4 text-body font-medium transition-colors ${
+        active ? "bg-primary text-primary-foreground" : "bg-sand text-ink"
       }`}
     >
       {children}
@@ -50,12 +55,12 @@ function AddEntry({ placeholder, onAdd }) {
           }
         }}
         placeholder={placeholder}
-        className="min-w-0 flex-1 rounded-full border border-black/15 px-3 py-1.5 text-small outline-none placeholder:text-ink-faint"
+        className="h-11 min-w-0 flex-1 rounded-full bg-sand px-4 text-body outline-none placeholder:text-ink-mid focus-visible:ring-2 focus-visible:ring-primary"
       />
       <button
         type="button"
         onClick={submit}
-        className="shrink-0 text-small font-semibold uppercase tracking-[0.12em] text-oxblood"
+        className="h-11 shrink-0 rounded-full px-4 text-body font-semibold text-primary"
       >
         Add
       </button>
@@ -65,11 +70,11 @@ function AddEntry({ placeholder, onAdd }) {
 
 function Tag({ children, onRemove }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-black/15 px-2 py-[3px] text-small text-ink">
+    <span className="inline-flex h-11 items-center gap-1 rounded-full bg-sand pl-4 pr-1 text-body text-ink">
       {children}
       {onRemove ? (
-        <button type="button" onClick={onRemove} aria-label={`Remove ${children}`}>
-          <X className="h-3 w-3 text-ink-faint" strokeWidth={2.4} />
+        <button type="button" onClick={onRemove} aria-label={`Remove ${children}`} className="flex h-9 w-9 items-center justify-center rounded-full">
+          <X className="h-4 w-4 text-ink-mid" strokeWidth={2.4} />
         </button>
       ) : null}
     </span>
@@ -135,6 +140,20 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
               className="w-full bg-transparent outline-none placeholder:text-ink-faint"
             />
           </DialogTitle>
+
+          <div className="mt-5">
+            <p className="eyebrow">Usual portion</p>
+            <p className="mt-1 text-small leading-snug text-ink-faint">
+              How much of one standard serving they eat. A child might be ½, a big appetite 1½.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {PORTIONS.map((value) => (
+                <Chip key={value} active={(Number(draft.portion) || 1) === value} onClick={() => setDraft({ ...draft, portion: value })}>
+                  {PORTION_WORDS[value]}
+                </Chip>
+              ))}
+            </div>
+          </div>
 
           <div className="mt-5">
             <p className="eyebrow">Allergies</p>
@@ -233,7 +252,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
               ))}
             </div>
             <div className="mt-2 flex gap-2">
-              <label className="flex flex-1 items-center gap-2 rounded-full border border-black/15 px-3 py-2">
+              <label className="flex h-11 flex-1 items-center gap-2 rounded-full bg-sand px-4">
                 <input
                   type="number"
                   min="0"
@@ -246,7 +265,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
                 />
                 <span className="text-small uppercase tracking-[0.1em] text-ink-faint">kcal</span>
               </label>
-              <label className="flex flex-1 items-center gap-2 rounded-full border border-black/15 px-3 py-2">
+              <label className="flex h-11 flex-1 items-center gap-2 rounded-full bg-sand px-4">
                 <input
                   type="number"
                   min="0"
@@ -267,7 +286,7 @@ export default function MemberDialog({ open, onOpenChange, member, onSave, onDel
               <button
                 type="button"
                 onClick={() => onDelete(draft)}
-                className="text-small font-semibold uppercase tracking-[0.12em] text-ink-faint"
+                className="h-11 px-2 text-body font-medium text-status-cant"
               >
                 Remove
               </button>
