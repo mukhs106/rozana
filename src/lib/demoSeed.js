@@ -2,7 +2,7 @@
 // a planned week, a grocery list, a pantry and a few collections. Built fresh
 // each time demo mode starts, so dates are always around today.
 import { RECIPE_SEED } from "@/lib/recipeSeed";
-import { resolveIngredients } from "@/lib/mealMath";
+import { plannedMealFor } from "@/lib/planWrite";
 import { addDays, todayISO } from "@/lib/slots";
 import { DIET_PRESETS } from "@/lib/diet";
 
@@ -65,9 +65,28 @@ const slug = (title) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+// Hands-on cooking time for the sample library (soaking not counted).
+const COOK_MINUTES = {
+  "Rajma masala": 75,
+  "Paneer bhurji": 20,
+  "Baingan bharta": 40,
+  "Bhindi masala": 25,
+  "Soya chunk curry": 35,
+  "Masoor dal": 25,
+  "Kadhi pakora": 50,
+  "Vegetable pulao": 35,
+  "Moong dal khichdi": 30,
+  "Home-style chicken curry": 60,
+  "Egg curry": 30,
+  "Aloo matar": 30,
+  "Tandoori roast gobi": 55,
+  "Kerala coconut stew": 35,
+};
+
 function recipesWithIds() {
   return RECIPE_SEED.map((recipe, index) => ({
     ...recipe,
+    cook_minutes: recipe.cook_minutes ?? COOK_MINUTES[recipe.title] ?? null,
     id: `r-${slug(recipe.title)}`,
     status: "published",
     created_date: new Date(Date.UTC(2026, 9, 1 + index)).toISOString(),
@@ -75,37 +94,7 @@ function recipesWithIds() {
 }
 
 function plannedMeal(recipe, date, type, members, stamp) {
-  const portions = members.map((member) => ({
-    diner_id: member.id,
-    diner_name: member.name,
-    servings: member.portion ?? 1,
-  }));
-  const total = portions.reduce((sum, portion) => sum + portion.servings, 0);
-  return {
-    id: `m-${recipe.id}-${date}-${type}`,
-    recipe_id: recipe.id,
-    recipe_title: recipe.title,
-    image_url: recipe.image_url,
-    version_key: null,
-    version_name: recipe.title,
-    scheduled_date: date,
-    meal_type: type,
-    servings: total,
-    diner_names: members.map((member) => member.name),
-    portions,
-    swap_keys: [],
-    swap_names: [],
-    ingredients: resolveIngredients(recipe, null, total).map(({ name, qty, unit, allergens }) => ({
-      name,
-      qty,
-      unit,
-      allergens: Array.isArray(allergens) ? allergens : null,
-    })),
-    nutrition: recipe.nutrition || {},
-    // Meals saved together share a timestamp: that is what makes them one batch.
-    created_date: stamp,
-    updated_date: stamp,
-  };
+  return { id: `m-${recipe.id}-${date}-${type}`, ...plannedMealFor(recipe, members, date, type, { stamp }) };
 }
 
 function grocery(id, display_name, quantity, unit, status, extra = {}) {

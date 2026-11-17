@@ -44,13 +44,15 @@ export const Route = createFileRoute("/_authed/make/$recipeId")({
   validateSearch: (search) => ({
     version: typeof search.version === "string" ? search.version : undefined,
     from: typeof search.from === "string" ? search.from : undefined,
+    // Comma-separated diner ids, from "Cook for this table" on Today.
+    diners: typeof search.diners === "string" ? search.diners : undefined,
   }),
   component: MakePage,
 });
 
 function MakePage() {
   const { recipeId } = Route.useParams();
-  const { version, from } = Route.useSearch();
+  const { version, from, diners: dinerParam } = Route.useSearch();
   const { user } = Route.useRouteContext();
   const { data: recipes = [], isLoading } = useRecipes();
   const { data: household } = useHousehold();
@@ -80,11 +82,12 @@ function MakePage() {
       user={user}
       prefill={prefill}
       initialVersion={version}
+      initialDinerIds={dinerParam ? dinerParam.split(",").filter(Boolean) : []}
     />
   );
 }
 
-function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
+function BatchEditor({ recipe, household, user, prefill, initialVersion, initialDinerIds = [] }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const members = membersOf(household, user);
@@ -94,7 +97,10 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
   const prefilledIds = prefill?.diner_names?.length
     ? members.filter((member) => prefill.diner_names.includes(member.name)).map((member) => member.id)
     : [];
-  const startDinerIds = prefilledIds.length ? prefilledIds : self ? [self.id] : [];
+  const fromTable = members.filter((member) => initialDinerIds.includes(member.id)).map((member) => member.id);
+  const startDinerIds = fromTable.length ? fromTable : prefilledIds.length ? prefilledIds : self ? [self.id] : [];
+  // Each person starts at their usual portion size.
+  const usualPortion = (id) => Number(members.find((member) => member.id === id)?.portion) || 1;
 
   const [versionKey, setVersionKey] = useState(
     initialVersion || prefill?.version_key || versions[0]?.key || "base",
@@ -106,7 +112,7 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
       key: `meal-${index}`,
       date: slot.date,
       type: slot.type,
-      portions: Object.fromEntries(startDinerIds.map((id) => [id, 1])),
+      portions: Object.fromEntries(startDinerIds.map((id) => [id, usualPortion(id)])),
     }));
   });
   const [swapScopes, setSwapScopes] = useState(() =>
