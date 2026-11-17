@@ -34,6 +34,7 @@ import { heatOf, perServing as servingFacts } from "@/lib/foodInfo";
 import { FIT, fitForDiner } from "@/lib/fit";
 import { availableSwaps, formatAmount, resolveIngredients, versionInstructions } from "@/lib/mealMath";
 import { plannedMealFor } from "@/lib/planWrite";
+import { toGroceryItem } from "@/lib/groceries";
 import { cookMinutes } from "@/lib/suggest";
 import { batchIngredients, batchMaths, isSplittable, tableRows, withLibrarySwaps } from "@/lib/table";
 import { convertRows } from "@/lib/units";
@@ -185,8 +186,17 @@ function RecipeView({ recipe: original }) {
   const addToPlan = async (date, type) => {
     setBusy(true);
     try {
-      const meal = plannedMealFor(recipe, withPortions(rows), date, type, { swapKeys: chosen, versionKey });
-      meal.swap_names = (recipe.swaps || []).filter((swap) => chosen.includes(swap.key)).map((swap) => `${swap.from} → ${swap.to}`);
+      // Split swaps go on the plates of the people who need them; the rest are whole-pot.
+      const split = chosen.filter((key) => {
+        const swap = (recipe.swaps || []).find((item) => item.key === key);
+        return swap && isSplittable(swap) && rows.some((row) => row.needed.includes(key));
+      });
+      const personSwaps = Object.fromEntries(rows.map((row) => [row.member.id, split.filter((key) => row.needed.includes(key))]));
+      const meal = plannedMealFor(recipe, withPortions(rows), date, type, {
+        swapKeys: chosen.filter((key) => !split.includes(key)),
+        personSwaps,
+        versionKey,
+      });
       await db.PlannedMeal.create(meal);
       await refresh("planned-meals");
       toast.success(`${recipe.title} is on the plan`);
@@ -205,12 +215,7 @@ function RecipeView({ recipe: original }) {
       const items = raw
         .filter((row) => !skipped.includes(row) && row.qty > 0)
         .map((row) => ({
-          name: row.name.toLowerCase(),
-          display_name: row.name,
-          quantity: row.qty,
-          unit: row.unit,
-          status: "to_buy",
-          note: row.swap && row.scope ? `For ${row.scope.join(" and ")} · ${recipe.title}` : recipe.title,
+          ...toGroceryItem({ name: row.name, qty: row.qty, unit: row.unit, forNames: row.swap && row.scope ? row.scope : null }, recipe.title),
           recipe_id: recipe.id,
         }));
       await db.GroceryItem.bulkCreate(items);

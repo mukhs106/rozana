@@ -3,7 +3,13 @@
 // each time demo mode starts, so dates are always around today.
 import { RECIPE_SEED } from "@/lib/recipeSeed";
 import { plannedMealFor } from "@/lib/planWrite";
-import { addDays, todayISO } from "@/lib/slots";
+import { addDays, parseISODate, toISODate, todayISO } from "@/lib/slots";
+
+function weekStart(dateISO) {
+  const date = parseISODate(dateISO);
+  date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+  return toISODate(date);
+}
 import { DIET_PRESETS } from "@/lib/diet";
 
 const JAIN_AVOID = DIET_PRESETS.find((preset) => preset.key === "jain")?.avoid || [];
@@ -117,15 +123,16 @@ export function buildDemoData() {
     plannedMeal(byTitle("Vegetable pulao"), addDays(today, 2), "dinner", everyone, stamp(3)),
     plannedMeal(byTitle("Kerala coconut stew"), addDays(today, 4), "dinner", everyone, stamp(4)),
     plannedMeal(byTitle("Bhindi masala"), addDays(today, 5), "dinner", notNani, stamp(5)),
+    { ...plannedMeal(byTitle("Aloo matar"), weekStart(today), "lunch", notNani, stamp(6)), any_day: true },
   ].filter((meal) => meal.recipe_id);
 
   const groceries = [
     grocery("g-basmati", "Basmati rice", 1, "kg", "to_buy"),
     grocery("g-tomato", "Tomatoes", 1, "kg", "to_buy"),
     grocery("g-coriander", "Coriander leaves", 1, "bunch", "to_buy"),
-    grocery("g-coconut-milk", "Coconut milk", 400, "ml", "to_buy"),
-    grocery("g-tofu", "Firm tofu", 200, "g", "to_buy", { note: "For Arjun's portion" }),
-    grocery("g-okra", "Okra", 500, "g", "to_buy"),
+    grocery("g-coconut-milk", "Coconut milk", 400, "ml", "to_buy", { recipe_title: "Kerala coconut stew" }),
+    grocery("g-tofu", "Firm tofu", 200, "g", "to_buy", { note: "For Arjun", for_diners: ["Arjun"], recipe_title: "Paneer bhurji" }),
+    grocery("g-okra", "Okra", 500, "g", "to_buy", { recipe_title: "Bhindi masala" }),
     grocery("g-onion", "Onions", 1, "kg", "have", { use_soon: true }),
     grocery("g-spinach", "Spinach", 250, "g", "have", { use_soon: true, use_by: addDays(today, 1) }),
     grocery("g-rice-left", "Cooked rice", 2, "cups", "have", { leftover: true, use_by: addDays(today, 1) }),

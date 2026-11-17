@@ -31,7 +31,9 @@ tables below, "File / Line" now points at `db.X` calls in the same files.
 | `PlannedMeal.portions[].diner_id` | diner id next to `diner_name` | written by new plans | keep in `portions` jsonb |
 | `Household.members[].portion` | usual portion size (0.5–2) | demo only so far | in `members` jsonb |
 | `GroceryItem.use_soon`, `.leftover`, `.use_by` | pantry flags for "Use it up" | demo only so far | columns on `grocery_items` |
-| `GroceryItem.recipe_id` | which recipe an item came from (recipe page "Groceries") | written by new adds | `recipe_id uuid` on `grocery_items` |
+| `GroceryItem.recipe_id`, `.recipe_title`, `.for_diners[]` | where an item came from, and who a per-person extra is for ("+100 g tofu for Arjun") | written by new adds | columns on `grocery_items` (`for_diners text[]`) |
+| `PlannedMeal.portions[].swap_keys` | each person's own swaps | written by new plans | in `portions` jsonb |
+| `PlannedMeal.any_day`, `.note`, `.cooked_on` | "Any day this week" bucket (date = that Monday), a note, cooked date | written by Plan | columns on `planned_meals` |
 
 Fields marked "demo only so far" are not yet written for signed-in users; adding them to
 Base44 is an open decision (see `docs/REDESIGN-PLAN.md` §7.3).
