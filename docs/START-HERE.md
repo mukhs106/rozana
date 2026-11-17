@@ -42,8 +42,20 @@ Save a file and the browser updates by itself. No refresh needed. Stop it with <
 npm run dev:phone
 ```
 
-It prints a **Network:** address like `http://192.168.1.23:5173`. Type that into your
-phone's browser. (Uses your real Base44 data, same as `--remote`.)
+It prints a **Network:** address like `http://10.0.0.139:5173`. Type that into your
+phone's browser. (Uses your real Base44 data, same as `--remote`.) It reads the app ID
+from `.env.phone.local`, a small git-ignored file on this Mac.
+
+> **Known limit: "Continue with Google" fails on the phone address** with
+> *"Domain is not valid"*. Base44 only returns you from Google to `localhost` or
+> `rozana-draft.base44.app`, not to your Mac's Wi-Fi address. Options:
+> email + password sign-in (if your account has a password) may work, since it doesn't
+> leave the page; or check the layout on your phone using the published
+> site `https://rozana-draft.base44.app` (that shows the last *published* version,
+> not your local edits). This goes away after the move to Supabase, where you control
+> the allowed addresses.
+>
+> If a port is busy, Vite picks the next one (5174, 5175…). Always use the address it prints.
 
 **Before you commit**, check for mistakes:
 
