@@ -4,7 +4,7 @@ For the person running the sessions. One page, so you can steer testers.
 
 ## Setup for each tester
 
-- Open the live link on the phone. The login screen says **Try Rozana**: tap **Explore Rozana**.
+- Open https://rozana-draft.base44.app on the phone. The login screen says **Try Rozana**: tap **Explore Rozana**.
 - Between testers: tap the **Demo ↺** label at the top (or Profile → **Reset demo**) and confirm.
   Everything goes back to the sample family, their week and the grocery list.
 - The demo lives only in that browser. Nothing a tester does reaches the backend.
@@ -15,6 +15,7 @@ For the person running the sessions. One page, so you can steer testers.
 1. Recipes → **Rajma masala**: see who it fits (Arjun needs a swap, Nani can't eat it).
 2. Turn on Arjun's **Sunflower oil instead of ghee**.
 3. **Split this batch across several meals** → tonight's dinner and tomorrow's lunch.
+   After 8pm the screen starts at tomorrow's lunch and dinner instead; tap a meal and change its date if needed.
 4. Tap a meal row to change portions (e.g. a bigger lunch for Arjun).
 5. **Review batch** → **Save to plan**. Plan shows the rajma as "1 cook, 2 meals".
 6. Groceries → **Add all** from your plan.
@@ -32,9 +33,13 @@ For the person running the sessions. One page, so you can steer testers.
 | Recipe language | Choosing a language saves, but recipes aren't translated. | Skip. |
 | Profile → Share your table | "Coming soon" card. | Skip. |
 | Prep / lunchbox reminders | Need browser notification permission; unreliable on phones. | Skip. |
+| "Edit with Base44" badge (bottom right) | Base44's badge on public apps. Tapping it leaves Rozana. | Close it with ×, or ignore. |
 | Leave demo | Logs the tester out to the login screen (data removed). | Use Reset instead. |
 
-## Not changed for testing
+## Access settings on Base44 (changed for testing)
 
-- Real accounts still work for the team via "Team sign-in". The app is invite-only on Base44, so a stranger who signs in with Google gets "Access not granted".
-- To reopen sign-up later: set `TESTING_MODE = false` in `src/lib/testing.js`.
+- The app is set to "anyone can open, no login", so testers land straight on **Try Rozana**.
+- Google, Microsoft, Facebook and Apple sign-in are off; the team signs in with email and password via "Team sign-in".
+- Sign-up is closed in the app. To reopen it later: set `TESTING_MODE = false` in `src/lib/testing.js`.
+- To go back to invite-only after testing: Base44 dashboard → app settings → visibility (needs a paid plan).
+- The version that was live before is saved in Base44's version history as "Before redesign publish (original version)".
