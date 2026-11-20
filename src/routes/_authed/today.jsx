@@ -33,7 +33,7 @@ import {
 } from "@/lib/suggest";
 import { nextSlot, todayISO } from "@/lib/slots";
 
-export const Route = createFileRoute("/_authed/")({
+export const Route = createFileRoute("/_authed/today")({
   ssr: false,
   head: () => ({ meta: [{ title: "Today · Rozana" }] }),
   component: TodayPage,

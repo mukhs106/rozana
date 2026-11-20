@@ -11,7 +11,7 @@ export function NotFound({ children }) {
           Go back
         </Button>
         <Button asChild>
-          <Link to="/">Start over</Link>
+          <Link to="/today">Start over</Link>
         </Button>
       </div>
     </div>

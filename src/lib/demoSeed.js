@@ -1,9 +1,15 @@
 // Sample kitchen for "Explore Rozana": a four-person table with different rules,
 // a planned week, a grocery list, a pantry and a few collections. Built fresh
 // each time demo mode starts, so dates are always around today.
+//
+// A scenario on the demo stage (src/lib/demoScenarios.js) can pass a `setup`
+// that replaces the planned meals, empties the shopping list or adds saved
+// versions. Without one, this is the full sample kitchen.
+import { DEMO_RECIPES } from "@/lib/demoRecipes";
 import { RECIPE_SEED } from "@/lib/recipeSeed";
 import { plannedMealFor } from "@/lib/planWrite";
-import { addDays, parseISODate, toISODate, todayISO } from "@/lib/slots";
+import { followingSlot, nextSlot, addDays, parseISODate, toISODate, todayISO } from "@/lib/slots";
+import { withLibrarySwaps } from "@/lib/table";
 
 function weekStart(dateISO) {
   const date = parseISODate(dateISO);
@@ -90,7 +96,7 @@ const COOK_MINUTES = {
 };
 
 function recipesWithIds() {
-  return RECIPE_SEED.map((recipe, index) => ({
+  return [...RECIPE_SEED, ...DEMO_RECIPES].map((recipe, index) => ({
     ...recipe,
     cook_minutes: recipe.cook_minutes ?? COOK_MINUTES[recipe.title] ?? null,
     id: `r-${slug(recipe.title)}`,
@@ -107,7 +113,71 @@ function grocery(id, display_name, quantity, unit, status, extra = {}) {
   return { id, name: display_name.toLowerCase(), display_name, quantity, unit, status, note: "", ...extra };
 }
 
-export function buildDemoData() {
+// --- Scenario setup -------------------------------------------------------
+
+function slotFor(when, meal, today) {
+  if (when === "next") return nextSlot();
+  if (when === "following") return followingSlot(nextSlot());
+  return { date: addDays(today, Number(when) || 0), type: meal || "dinner" };
+}
+
+/** PlannedMeal rows from a scenario's `meals` list. Meals with the same `batch` are one cook. */
+function scenarioMeals(specs, recipes, today) {
+  const batches = Array.from(new Set(specs.map((spec) => spec.batch).filter(Boolean)));
+  return specs
+    .map((spec, index) => {
+      const recipe = recipes.find((item) => item.title === spec.recipe);
+      if (!recipe) return null;
+      const people = spec.diners ? DEMO_MEMBERS.filter((member) => spec.diners.includes(member.name)) : DEMO_MEMBERS;
+      const seated = people.map((member) => ({ ...member, portion: spec.portions?.[member.name] ?? member.portion }));
+      const personSwaps = Object.fromEntries(
+        Object.entries(spec.swaps || {}).map(([name, keys]) => [DEMO_MEMBERS.find((member) => member.name === name)?.id, keys]),
+      );
+      const slot = slotFor(spec.when, spec.meal, today);
+      // Rows saved with the same timestamp are grouped into one batch.
+      const group = spec.batch ? batches.indexOf(spec.batch) : batches.length + index;
+      const stamp = new Date(Date.UTC(2026, 10, 10, 10, group)).toISOString();
+      return {
+        id: `m-${recipe.id}-${slot.date}-${slot.type}`,
+        ...plannedMealFor(withLibrarySwaps(recipe, spec.version || null), seated, slot.date, slot.type, {
+          stamp,
+          personSwaps,
+          versionKey: spec.version || null,
+        }),
+      };
+    })
+    .filter(Boolean);
+}
+
+/** SavedVersion rows from a scenario's `saved` list, at each person's usual portion. */
+function scenarioSaved(specs, recipes) {
+  return specs
+    .map((spec, index) => {
+      const recipe = recipes.find((item) => item.title === spec.recipe);
+      if (!recipe) return null;
+      const people = spec.diners ? DEMO_MEMBERS.filter((member) => spec.diners.includes(member.name)) : DEMO_MEMBERS;
+      const perMeal = people.reduce((total, member) => total + (Number(member.portion) || 1), 0);
+      const mealCount = spec.meals || 1;
+      const version = (recipe.variations || []).find((item) => item.key === spec.version);
+      return {
+        id: `sv-${recipe.id}-${index}`,
+        recipe_id: recipe.id,
+        recipe_title: recipe.title,
+        image_url: version?.image_url || recipe.image_url,
+        version_key: version?.key || "base",
+        version_name: version?.name || "Original recipe",
+        servings: perMeal,
+        meal_count: mealCount,
+        total_portions: perMeal * mealCount,
+        swap_keys: spec.swaps || [],
+        diner_names: people.map((member) => member.name),
+        created_date: new Date(Date.UTC(2026, 10, 1 + index)).toISOString(),
+      };
+    })
+    .filter(Boolean);
+}
+
+export function buildDemoData(setup = null) {
   const today = todayISO();
   const recipes = recipesWithIds();
   const byTitle = (title) => recipes.find((recipe) => recipe.title === title);
@@ -125,6 +195,7 @@ export function buildDemoData() {
     plannedMeal(byTitle("Bhindi masala"), addDays(today, 5), "dinner", notNani, stamp(5)),
     { ...plannedMeal(byTitle("Aloo matar"), weekStart(today), "lunch", notNani, stamp(6)), any_day: true },
   ].filter((meal) => meal.recipe_id);
+  const plannedMeals = setup?.meals ? scenarioMeals(setup.meals, recipes, today) : meals;
 
   const groceries = [
     grocery("g-basmati", "Basmati rice", 1, "kg", "to_buy"),
@@ -159,9 +230,10 @@ export function buildDemoData() {
     Household: [
       { id: "h-demo", name: "The Mukherjee table", default_servings: 4, members: DEMO_MEMBERS },
     ],
-    PlannedMeal: meals,
-    SavedVersion: [],
-    GroceryItem: groceries,
+    PlannedMeal: plannedMeals,
+    SavedVersion: setup?.saved ? scenarioSaved(setup.saved, recipes) : [],
+    // "pantry" keeps what's at home and empties the shopping list.
+    GroceryItem: setup?.groceries === "pantry" ? groceries.filter((item) => item.status === "have") : groceries,
     AppSetting: [],
     Collection: collections,
     CookLog: cookLog,

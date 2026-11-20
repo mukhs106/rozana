@@ -41,7 +41,7 @@ export function LoginPage() {
   // "Explore Rozana": sample data in this browser only, no account, no Base44 writes.
   function explore() {
     enterDemo();
-    window.location.assign("/");
+    window.location.assign("/today");
   }
 
   // The second sign-in step (authenticator app or text message) replaces the whole page.

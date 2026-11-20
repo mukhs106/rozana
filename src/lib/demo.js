@@ -1,5 +1,5 @@
-// Demo mode: "Explore Rozana" on the login screen opens the app with sample data
-// kept only in this browser. Nothing in demo mode reaches Base44.
+// Demo mode: "Explore Rozana" on the login screen, or the demo stage at /, opens
+// the app with sample data kept only in this browser. Nothing in demo mode reaches Base44.
 import { buildDemoData } from "@/lib/demoSeed";
 import { DEMO_FLAG_KEY as FLAG_KEY, isDemo } from "@/lib/demoFlag";
 
@@ -7,7 +7,7 @@ export { isDemo };
 export const DEMO_DB_KEY = "rozana.demo.db";
 const VERSION_KEY = "rozana.demo.version";
 // Bump when the sample data changes, so open demos pick up the new seed.
-const DEMO_SEED_VERSION = "5";
+const DEMO_SEED_VERSION = "6";
 
 export const DEMO_USER = {
   id: "demo-user",
@@ -17,9 +17,12 @@ export const DEMO_USER = {
   is_demo: true,
 };
 
-/** Seeds fresh sample data and turns demo mode on. */
-export function enterDemo() {
-  window.localStorage.setItem(DEMO_DB_KEY, JSON.stringify(buildDemoData()));
+/**
+ * Seeds fresh sample data and turns demo mode on. A scenario from the demo
+ * stage passes its `setup`; without one this is the full sample kitchen.
+ */
+export function enterDemo(setup = null) {
+  window.localStorage.setItem(DEMO_DB_KEY, JSON.stringify(buildDemoData(setup)));
   window.localStorage.setItem(VERSION_KEY, DEMO_SEED_VERSION);
   window.localStorage.setItem(FLAG_KEY, "1");
 }
