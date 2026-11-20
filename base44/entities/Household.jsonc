@@ -68,6 +68,9 @@
                 "type": "boolean"
               }
             }
+          },
+          "portion": {
+            "type": "number"
           }
         }
       }

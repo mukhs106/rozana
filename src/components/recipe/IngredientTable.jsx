@@ -45,16 +45,14 @@ export default function IngredientTable({
 
               <div className="min-w-0 flex-1">
                 <p className="text-body leading-snug">{ing.name}</p>
-                {ing.scope ? (
-                  <p className="mt-0.5 text-small font-semibold uppercase tracking-[0.1em] text-ink-faint">
-                    {ing.scope.join(" · ")} only
-                  </p>
+                {ing.swap && ing.scope ? (
+                  <p className="mt-0.5 text-small font-semibold text-primary">For {ing.scope.join(" and ")}</p>
                 ) : null}
                 {ing.note ? <p className="mt-0.5 text-small leading-snug text-ink-faint">{ing.note}</p> : null}
                 {Array.isArray(ing.allergens) && ing.allergens.length > 0 ? (
-                  <p className="mt-1 flex items-center gap-1 text-small font-semibold uppercase tracking-[0.1em] text-plum">
-                    <AlertCircle className="h-3 w-3" strokeWidth={2.4} />
-                    contains {ing.allergens.join(", ")}
+                  <p className="mt-1 flex items-center gap-1 text-small font-medium text-ink-soft">
+                    <AlertCircle className="h-4 w-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                    Contains {ing.allergens.join(", ")}
                   </p>
                 ) : null}
               </div>
@@ -66,11 +64,11 @@ export default function IngredientTable({
                     type="button"
                     onClick={() => onOpenSwap({ options, ingredient: ing })}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full border px-2 py-[3px] text-small font-semibold uppercase tracking-[0.1em] transition-colors duration-150 motion-reduce:transition-none",
-                      swapped ? "border-chili text-chili" : "border-border text-ink-mid hover:border-ink-mid",
+                      "inline-flex h-9 items-center gap-1 rounded-full px-3 text-small font-semibold transition-colors duration-150 motion-reduce:transition-none",
+                      swapped ? "bg-primary text-primary-foreground" : "bg-sand text-ink hover:bg-sand/70",
                     )}
                   >
-                    <SwapIcon className="h-3 w-3" />
+                    <SwapIcon className="h-4 w-4" />
                     {swapped ? "Swapped" : "Swap"}
                   </button>
                 ) : null}

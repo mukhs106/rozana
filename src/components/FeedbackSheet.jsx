@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
+import { toast } from "sonner";
 import Pill from "@/components/Pill";
-import { CONTACT_EMAIL } from "@/lib/contact";
 
 const fieldClass =
   "mt-2 w-full rounded-2xl bg-sand px-4 py-3 text-body text-ink outline-none placeholder:text-ink-mid focus-visible:ring-2 focus-visible:ring-primary";
 
 /**
- * Name, email (prefilled from the account) and a message. For now Send opens
- * the person's email app with everything filled in; nothing is stored.
+ * Name, email (prefilled from the account) and a message.
+ * TODO(supabase): store feedback in a `feedback` table. Until then Send goes
+ * nowhere: it says so, closes the sheet and keeps nothing.
  */
 export default function FeedbackSheet({ open, onOpenChange, user }) {
   const [name, setName] = useState("");
@@ -23,9 +24,7 @@ export default function FeedbackSheet({ open, onOpenChange, user }) {
 
   const send = (event) => {
     event.preventDefault();
-    const body = `${message.trim()}\n\nFrom: ${name.trim() || "(no name)"} <${email.trim() || "no email"}>`;
-    const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Rozana feedback")}&body=${encodeURIComponent(body)}`;
-    window.location.href = href;
+    toast("Feedback isn't connected yet", { description: "Nothing was sent. Please tell us in person for now." });
     onOpenChange(false);
     setMessage("");
   };
@@ -68,7 +67,7 @@ export default function FeedbackSheet({ open, onOpenChange, user }) {
             />
           </label>
           <p className="text-body leading-5 text-ink-mid">
-            Send opens your email app with this filled in. Nothing is sent until you send it there.
+            Sending feedback from the app isn't connected yet, so nothing is sent or saved.
           </p>
           <Pill type="submit" className="w-full" disabled={!message.trim()}>
             Send

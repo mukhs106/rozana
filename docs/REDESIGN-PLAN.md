@@ -234,10 +234,10 @@ Cards show **"Fits 3 of 4"**.
 
 | Shortcut (our name) | Rule |
 | --- | --- |
-| **Plan my week** | For each empty dinner slot this week (and lunch if you use lunch): candidates are recipes with `blocked = 0` for that day's diners. Score = 100 − 15×swaps − 10×checks − time penalty (weekdays only: −1 per 3 min over 40 min) − 40 if cooked or planned in the last 7 days − 20 if the same main ingredient is already this week − 10 if the same shelf is already this week + 5 if the pantry covers ≥ 50%. Pick the best per day, in order, so variety updates as it fills. Ties break by the library order, then by title, so the same inputs always give the same week. Shows a **draft week** you accept, change per day, or discard. Nothing is written until you accept. |
-| **Cook from my pantry** | Pantry = staples from settings + grocery items marked "have". Match = matched ingredients ÷ ingredients that matter (water and salt don't count). Rank by match %, then fewest missing, then fit. Card shows "You have 8 of 10 · need paneer, cream". Recipes with `blocked > 0` are left out. |
+| **Plan my week** | For each empty dinner slot this week (and lunch if you use lunch): candidates are recipes with `blocked = 0` for that day's diners. Score = 100 − 15×swaps − 10×checks − time penalty (weekdays only: −1 per 3 min over 40 min) − 40 if cooked or planned in the last 7 days − 20 if the same main ingredient is already this week − 10 if the same shelf is already this week + 5 if the pantry covers ≥ 50%. Pick the best per day, in order, so variety updates as it fills. Ties break by the library order, then by title, so the same inputs always give the same week. Shows a **draft week** you accept, change per day, or discard. Nothing is written until you accept. *(Built in Phase 2: also −5 per person who dislikes something in it; a dish is never picked twice in one draft; when nothing suits everyone, −50 per person who can't eat it, and the card says who.)* |
+| **Cook from my pantry** | Pantry = staples from settings + grocery items marked "have". Match = matched ingredients ÷ ingredients that matter (water and salt don't count). Rank by match %, then fewest missing, then fit. Card shows "You have 8 of 10 · need paneer, cream". *(Built in Phase 2: dishes one person can't eat are included after the rest, labelled "Nani can't eat this", because a strict diet like Jain otherwise empties the list.)* |
 | **Feeds everyone** | Recipes with `blocked = 0`. Sort by swaps (0 first), then checks, then cook time. Card says "Fits all 4" or "Fits all 4 with 1 swap". |
-| **Use it up** | Pantry items you've marked **leftover** or **use soon** (with an optional date). Score = sum over those items used by the recipe: 2 if its date is within 2 days, else 1. Ties by fit, then cook time. Leaves out blocked recipes. Empty state explains how to mark items. |
+| **Use it up** | Pantry items you've marked **leftover** or **use soon** (with an optional date). Score = sum over those items used by the recipe: 2 if its date is within 2 days, else 1. Ties by fit, then cook time. Same one-person allowance as the pantry list, ranked after the rest and labelled. Empty state explains how to mark items. |
 
 ### Tonight's table
 
@@ -330,8 +330,20 @@ Cards show **"Fits 3 of 4"**.
 | 1 | `phase-1-foundations` | Demo entry + seeded demo data, `src/api/db.js` adapter (Base44 + local), pages moved onto it, tokens, new shell (top bar, tab bar with Groceries, feedback sheet) | — |
 | 2 | `phase-2-today` | Fit engine + allergy safety rules, Today: tonight's table, shortcuts, shelves, this week, story teaser | **Stop with 390×844 screenshots** |
 | 3 | `phase-3-recipes` | Library (tabs, search, sort, filters, add tile, collections), recipe page with At the table | — |
+
+**Phase 3 as built.** "Cook for this table" on Today now opens the recipe page with that table seated
+(the recipe page *is* the adapted dish); the older batch screen stays reachable as "Split this batch
+across several meals". Swaps are split by portion when the ingredient can be cooked apart (paneer,
+tofu, chicken, egg, potato, chickpeas, nuts…) and whole-pot otherwise (ghee, oil, onion…), and the
+page says which. People who can't eat a dish start unseated. The servings stepper on Ingredients adds
+spare portions for a tiffin or the freezer. "Cook" opens a step-by-step view that ends in "Cooked it".
 | 4 | `phase-4-plan-groceries` | Week view, meal sheet, Groceries tab, pantry, order sheet, list bug fixes (single batch, no 6-item cap, one heading) | — |
 | 5 | `phase-5-profile` | Table-first profile, units, servings, language, staples, streak, reminders, household (soon), about, account | Final report |
+
+**Phase 4–5 as built.** Plan meals keep each person's swaps, so Groceries can show "+ 200 g firm tofu
+for Arjun". "Any day this week" meals are stored on that week's Monday with `any_day: true`.
+"Scale recipes to my table" is on by default; off, a batch starts at your default size and the extra
+shows as spare portions. Diners gained a usual-portion setting (½ to 2).
 
 Each phase ends with `npm run lint` and `npm run build`, then merges to `main`.
 Untouched throughout: `src/routeTree.gen.ts`, `src/server.js`, `src/lib/error-capture*.js`.

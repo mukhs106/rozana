@@ -67,3 +67,31 @@ export function membersOf(household, user) {
   const members = household?.members?.length ? household.members : [selfMember(user)];
   return members;
 }
+export const SETTINGS_DEFAULTS = {
+  units: "recipe",
+  default_servings: 4,
+  auto_scale: true,
+  recipe_language: "en",
+  staples: ["salt", "oil", "cumin seeds", "turmeric", "red chilli powder", "garam masala"],
+};
+
+/** Kitchen settings (one row). Kept in this browser until Supabase; see src/api/db.js. */
+export function useUserSettings() {
+  return useQuery({
+    queryKey: ["user-settings"],
+    queryFn: async () => {
+      const rows = await db.UserSettings.list();
+      return { ...SETTINGS_DEFAULTS, ...(rows?.[0] || {}) };
+    },
+  });
+}
+
+/** Every "Cooked it": feeds the streak and keeps Plan my week from repeating. */
+export function useCookLog() {
+  return useQuery({ queryKey: ["cook-log"], queryFn: () => db.CookLog.list("-cooked_on") });
+}
+
+/** Collections the cook made, plus the Favourites one (created on first heart). */
+export function useCollections() {
+  return useQuery({ queryKey: ["collections"], queryFn: () => db.Collection.list("name") });
+}

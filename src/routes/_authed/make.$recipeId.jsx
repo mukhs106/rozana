@@ -44,13 +44,17 @@ export const Route = createFileRoute("/_authed/make/$recipeId")({
   validateSearch: (search) => ({
     version: typeof search.version === "string" ? search.version : undefined,
     from: typeof search.from === "string" ? search.from : undefined,
+    // Comma-separated diner ids, from "Cook for this table" on Today.
+    diners: typeof search.diners === "string" ? search.diners : undefined,
+    // Comma-separated swap keys already chosen on the recipe page.
+    swaps: typeof search.swaps === "string" ? search.swaps : undefined,
   }),
   component: MakePage,
 });
 
 function MakePage() {
   const { recipeId } = Route.useParams();
-  const { version, from } = Route.useSearch();
+  const { version, from, diners: dinerParam, swaps: swapParam } = Route.useSearch();
   const { user } = Route.useRouteContext();
   const { data: recipes = [], isLoading } = useRecipes();
   const { data: household } = useHousehold();
@@ -80,11 +84,13 @@ function MakePage() {
       user={user}
       prefill={prefill}
       initialVersion={version}
+      initialDinerIds={dinerParam ? dinerParam.split(",").filter(Boolean) : []}
+      initialSwapKeys={swapParam ? swapParam.split(",").filter(Boolean) : []}
     />
   );
 }
 
-function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
+function BatchEditor({ recipe, household, user, prefill, initialVersion, initialDinerIds = [], initialSwapKeys = [] }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const members = membersOf(household, user);
@@ -94,7 +100,10 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
   const prefilledIds = prefill?.diner_names?.length
     ? members.filter((member) => prefill.diner_names.includes(member.name)).map((member) => member.id)
     : [];
-  const startDinerIds = prefilledIds.length ? prefilledIds : self ? [self.id] : [];
+  const fromTable = members.filter((member) => initialDinerIds.includes(member.id)).map((member) => member.id);
+  const startDinerIds = fromTable.length ? fromTable : prefilledIds.length ? prefilledIds : self ? [self.id] : [];
+  // Each person starts at their usual portion size.
+  const usualPortion = (id) => Number(members.find((member) => member.id === id)?.portion) || 1;
 
   const [versionKey, setVersionKey] = useState(
     initialVersion || prefill?.version_key || versions[0]?.key || "base",
@@ -106,12 +115,12 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
       key: `meal-${index}`,
       date: slot.date,
       type: slot.type,
-      portions: Object.fromEntries(startDinerIds.map((id) => [id, 1])),
+      portions: Object.fromEntries(startDinerIds.map((id) => [id, usualPortion(id)])),
     }));
   });
-  const [swapScopes, setSwapScopes] = useState(() =>
-    Object.fromEntries((prefill?.swap_keys || []).map((key) => [key, "all"])),
-  );
+  const [swapScopes, setSwapScopes] = useState(() => {
+    return Object.fromEntries([...(prefill?.swap_keys || []), ...initialSwapKeys].map((key) => [key, "all"]));
+  });
   const [flash, setFlash] = useState({ names: [], meal: null });
   const [sheetOptions, setSheetOptions] = useState([]);
   const [sheetKey, setSheetKey] = useState(null);
@@ -335,6 +344,12 @@ function BatchEditor({ recipe, household, user, prefill, initialVersion }) {
       });
 
       if (withPlan) {
+        // The same dish already planned for one of these meals is replaced, not doubled.
+        const existing = await db.PlannedMeal.filter({ recipe_id: recipe.id });
+        const replaced = existing.filter((meal) =>
+          groups.some((group) => group.date === meal.scheduled_date && group.type === meal.meal_type),
+        );
+        await Promise.all(replaced.map((meal) => db.PlannedMeal.delete(meal.id)));
         await db.PlannedMeal.bulkCreate(
           groups.map((group) => ({
             recipe_id: recipe.id,

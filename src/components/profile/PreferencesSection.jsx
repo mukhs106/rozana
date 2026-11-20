@@ -17,7 +17,7 @@ const AVAILABILITY = {
   default: "Switching a reminder on asks your browser for permission first.",
 };
 
-export default function PreferencesSection({ prefs, update }) {
+export default function PreferencesSection({ prefs, update, title = "Preferences", showAutoplay = false }) {
   const [permission, setPermission] = useState("default");
   const [asking, setAsking] = useState(false);
 
@@ -50,8 +50,8 @@ export default function PreferencesSection({ prefs, update }) {
   };
 
   return (
-    <section className="mt-9">
-      <h2 className="text-heading leading-tight">Preferences</h2>
+    <section className={title ? "mt-9" : ""}>
+      {title ? <h2 className="text-heading leading-tight">{title}</h2> : null}
 
       <div className="mt-1">
         <SettingsRow label="Prep reminders" hint="A nudge the evening you cook.">
@@ -100,7 +100,7 @@ export default function PreferencesSection({ prefs, update }) {
         </p>
       </div>
 
-      <div className="mt-4">
+      {showAutoplay ? <div className="mt-4">
         <SettingsRow
           label="Autoplay homepage videos"
           hint="Off by default. Clips are muted and never play when reduced motion is on."
@@ -111,7 +111,7 @@ export default function PreferencesSection({ prefs, update }) {
             aria-label="Autoplay homepage videos"
           />
         </SettingsRow>
-      </div>
+      </div> : null}
     </section>
   );
 }

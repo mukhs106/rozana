@@ -29,6 +29,27 @@
     },
     "note": {
       "type": "string"
+    },
+    "use_soon": {
+      "type": "boolean"
+    },
+    "leftover": {
+      "type": "boolean"
+    },
+    "use_by": {
+      "type": "string"
+    },
+    "recipe_id": {
+      "type": "string"
+    },
+    "recipe_title": {
+      "type": "string"
+    },
+    "for_diners": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "rls": {

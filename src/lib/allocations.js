@@ -1,10 +1,12 @@
 // Portion allocation. A meal holds one servings value per diner, so a single
 // person can eat 1.5 while everyone else eats 1.
 import { mealLabel } from "@/lib/slots";
+import { formatQty } from "@/lib/mealMath";
 
+/** Portions as people say them: 1½, 3¾, 2. */
 export function formatServings(value) {
   const n = Math.round((Number(value) || 0) * 100) / 100;
-  return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0$/, "");
+  return Number.isInteger(n) ? String(n) : formatQty(n);
 }
 
 export function sumServings(portions = {}) {

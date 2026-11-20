@@ -92,7 +92,7 @@ export const INFO_TOPICS = {
     sections: [
       {
         heading: "Describe ingredients honestly",
-        body: "Tag allergens on every ingredient you add. If you don’t know, leave the tag off: the app then shows “Check ingredients” instead of claiming the dish is safe.",
+        body: "Tag allergens on every ingredient you add. If you don’t know, leave the tag off: the app then shows “Check ingredients” instead of claiming the dish is free of allergens.",
       },
       {
         heading: "Keep substitutions explicit",
