@@ -11,14 +11,14 @@ import { useReminders } from "@/hooks/useReminders";
 import { cn } from "@/lib/utils";
 
 const TABS = [
-  { to: "/", label: "Today", Icon: TodayIcon },
+  { to: "/today", label: "Today", Icon: TodayIcon },
   { to: "/recipes", label: "Recipes", Icon: RecipesIcon },
   { to: "/plan", label: "Plan", Icon: PlanIcon },
   { to: "/groceries", label: "Groceries", Icon: ShoppingListIcon },
 ];
 
 function isActive(pathname, to) {
-  return to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
+  return pathname === to || pathname.startsWith(`${to}/`);
 }
 
 const iconButton =
@@ -74,7 +74,7 @@ function TopBar() {
   return (
     <header className="sticky top-0 z-20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
       <div className="mx-auto flex h-[60px] w-full max-w-[460px] items-center gap-1 pl-4 pr-3">
-        <Link to="/" aria-label={`${title} home`} className="flex h-11 items-center gap-1.5 pr-2">
+        <Link to="/today" aria-label={`${title} home`} className="flex h-11 items-center gap-1.5 pr-2">
           <Monogram className="h-8 w-8 text-[28px]" />
           <Wordmark text={title} className="text-[26px]" />
         </Link>

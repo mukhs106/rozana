@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_authed/admin/enrich")({
   ssr: false,
   // Owner only: anyone else is sent home without seeing this screen exists.
   beforeLoad: ({ context }) => {
-    if (context.user?.role !== "admin") throw redirect({ to: "/" });
+    if (context.user?.role !== "admin") throw redirect({ to: "/today" });
   },
   head: () => ({ meta: [{ title: "Library tools · Rozana" }] }),
   component: AdminEnrichPage,
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authed/admin/enrich")({
 function AdminEnrichPage() {
   return (
     <AppShell>
-      <Link to="/" className="text-small font-medium text-ink-mid">
+      <Link to="/today" className="text-small font-medium text-ink-mid">
         Back to Today
       </Link>
       <h1 className="mt-2 text-display leading-[1.05]">Library tools</h1>

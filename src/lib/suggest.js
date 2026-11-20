@@ -35,8 +35,13 @@ export function blockedNames(table) {
 // Feeds everyone
 
 /** Recipes everyone can eat, fewest swaps first, then fewest checks, then quickest. */
+/** A side (roti, raita) goes with a meal; it is never offered as the whole dinner. */
+export function isSide(recipe) {
+  return (recipe?.tags || []).some((tag) => String(tag).toLowerCase() === "side");
+}
+
 export function feedsEveryone(recipes, members) {
-  return eatable(recipes, members).sort(
+  return eatable(recipes.filter((recipe) => !isSide(recipe)), members).sort(
     (a, b) =>
       a.table.swapCount - b.table.swapCount ||
       a.table.check - b.table.check ||
@@ -259,7 +264,7 @@ export function planWeek({ recipes, members, meals = [], cookLog = [], pantry = 
   const shelvesOf = (recipe) =>
     SHELVES.filter((shelf) => shelf.test.length < 2 && shelf.test(recipe)).map((shelf) => shelf.key);
 
-  const candidates = recipes.map((recipe) => ({ recipe, table: fitForTable(recipe, members) }));
+  const candidates = recipes.filter((recipe) => !isSide(recipe)).map((recipe) => ({ recipe, table: fitForTable(recipe, members) }));
   const chosen = [...weekRecipes];
   const usedIds = new Set(recentIds);
 

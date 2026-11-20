@@ -12,7 +12,7 @@ export function DefaultCatchBoundary({ error }) {
         <Button variant="outline" onClick={() => router.invalidate()}>
           Try again
         </Button>
-        <Button asChild>{isRoot ? <Link to="/">Home</Link> : <Link to="/" onClick={(e) => { e.preventDefault(); window.history.back(); }}>Go back</Link>}</Button>
+        <Button asChild>{isRoot ? <Link to="/today">Home</Link> : <Link to="/today" onClick={(e) => { e.preventDefault(); window.history.back(); }}>Go back</Link>}</Button>
       </div>
     </div>
   );
