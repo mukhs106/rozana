@@ -7,7 +7,7 @@ export { isDemo };
 export const DEMO_DB_KEY = "rozana.demo.db";
 const VERSION_KEY = "rozana.demo.version";
 // Bump when the sample data changes, so open demos pick up the new seed.
-const DEMO_SEED_VERSION = "5";
+const DEMO_SEED_VERSION = "7";
 
 export const DEMO_USER = {
   id: "demo-user",
@@ -31,6 +31,20 @@ export function refreshDemoIfStale() {
   } catch {
     /* storage blocked: the demo keeps whatever it has */
   }
+}
+
+/**
+ * Puts the demo back to its starting data (and default device preferences), so
+ * each tester starts fresh. Reloads to Today so every screen reads the new data.
+ */
+export function resetDemo() {
+  try {
+    enterDemo();
+    window.localStorage.removeItem("rozana.prefs");
+  } catch {
+    /* storage blocked: the reload still clears anything held in memory */
+  }
+  window.location.assign("/");
 }
 
 /** Turns demo mode off and removes the sample data. */

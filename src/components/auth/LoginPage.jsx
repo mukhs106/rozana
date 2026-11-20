@@ -9,6 +9,7 @@ import { MfaScreen } from "@/components/auth/MfaParts";
 import { loginWithMfa } from "@/lib/authMfa";
 import { safeReturnTo } from "@/lib/authReturnTo";
 import { enterDemo } from "@/lib/demo";
+import { TESTING_MODE } from "@/lib/testing";
 
 // The /login page. ?returnTo= (or the platform's ?from_url=) is where the visitor
 // goes after signing in — the login gate and the MCP consent page send people here with it.
@@ -19,6 +20,7 @@ export function LoginPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [mfaChallenge, setMfaChallenge] = useState(null);
+  const [teamSignIn, setTeamSignIn] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
@@ -47,8 +49,8 @@ export function LoginPage() {
   // The second sign-in step (authenticator app or text message) replaces the whole page.
   if (mfaChallenge) return <MfaScreen><MfaFlow challenge={mfaChallenge} returnTo={returnTo} /></MfaScreen>;
 
-  return (
-    <AuthLayout icon={LogIn} title="Welcome back" subtitle="Log in to your account">
+  const signInForm = (
+    <>
       <GoogleButton returnTo={returnTo} onError={setError} />
       <OrDivider />
       <AuthError>{error}</AuthError>
@@ -76,15 +78,11 @@ export function LoginPage() {
           Log in
         </SubmitButton>
       </form>
-      <p className="mt-6 text-center text-sm text-muted-foreground">
-        Don't have an account?{" "}
-        <AuthLink to="/register" returnTo={returnTo}>
-          Create one
-        </AuthLink>
-      </p>
-      <div className="mt-6">
-        <OrDivider />
-      </div>
+    </>
+  );
+
+  const exploreButton = (
+    <>
       <button
         type="button"
         onClick={explore}
@@ -95,6 +93,40 @@ export function LoginPage() {
       <p className="mt-2 text-center text-small text-muted-foreground">
         Look around with a sample family of four. No details needed, nothing is saved to an account.
       </p>
+    </>
+  );
+
+  // User testing: the demo comes first, sign-up is closed, and account sign-in
+  // (for the team) sits behind a small link. See src/lib/testing.js.
+  if (TESTING_MODE) {
+    return (
+      <AuthLayout icon={LogIn} title="Try Rozana" subtitle="Plan a week of meals for a sample family of four">
+        {exploreButton}
+        <div className="mt-8 text-center">
+          {teamSignIn ? null : (
+            <button type="button" onClick={() => setTeamSignIn(true)} className="text-small text-muted-foreground underline underline-offset-4">
+              Team sign-in
+            </button>
+          )}
+        </div>
+        {teamSignIn ? <div className="mt-2">{signInForm}</div> : null}
+      </AuthLayout>
+    );
+  }
+
+  return (
+    <AuthLayout icon={LogIn} title="Welcome back" subtitle="Log in to your account">
+      {signInForm}
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Don't have an account?{" "}
+        <AuthLink to="/register" returnTo={returnTo}>
+          Create one
+        </AuthLink>
+      </p>
+      <div className="mt-6">
+        <OrDivider />
+      </div>
+      {exploreButton}
     </AuthLayout>
   );
 }

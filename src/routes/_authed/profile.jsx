@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronRight, LogOut, Plus, ShieldCheck, Wrench } from "lucide-react";
+import { ChevronRight, LogOut, Plus, RotateCcw, ShieldCheck, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import AppShell from "@/components/AppShell";
 import Pill from "@/components/Pill";
 import FeedbackSheet from "@/components/FeedbackSheet";
+import ResetDemoSheet from "@/components/ResetDemoSheet";
 import MemberDialog from "@/components/profile/MemberDialog";
 import SavedVersionList from "@/components/profile/SavedVersionList";
 import PreferencesSection from "@/components/profile/PreferencesSection";
@@ -279,7 +280,15 @@ function ProfilePage() {
       {/* 6. Account */}
       <Section title="Account">
         {demo ? (
-          <SettingsRow icon={LogOut} label="Leave demo" hint="Removes the sample data from this browser" tone="danger" onClick={exitDemo} />
+          <>
+            <SettingsRow
+              icon={RotateCcw}
+              label="Reset demo"
+              hint="Back to the sample family's starting week"
+              onClick={() => setSheet("reset")}
+            />
+            <SettingsRow icon={LogOut} label="Leave demo" hint="Removes the sample data from this browser" tone="danger" onClick={exitDemo} />
+          </>
         ) : (
           <>
             <SettingsRow icon={ShieldCheck} label="Sign-in and security" hint="Two-step sign-in and password" to="/mfa" params={undefined} />
@@ -307,6 +316,7 @@ function ProfilePage() {
       </Section>
 
       <MemberDialog open={dialogOpen} onOpenChange={setDialogOpen} member={editing} onSave={saveMember} onDelete={deleteMember} />
+      <ResetDemoSheet open={sheet === "reset"} onOpenChange={(open) => setSheet(open ? "reset" : null)} />
       <FeedbackSheet open={sheet === "feedback"} onOpenChange={(open) => setSheet(open ? "feedback" : null)} user={user} />
       <UnitsSheet
         open={sheet === "units"}

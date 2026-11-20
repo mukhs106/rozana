@@ -168,7 +168,11 @@ export default function AtTheTable({
       <Link
         to="/make/$recipeId"
         params={{ recipeId }}
-        search={{ diners: rows.map((row) => row.member.id).join(",") }}
+        search={{
+          diners: rows.map((row) => row.member.id).join(","),
+          // Carry the swaps already turned on here, so the batch screen starts with them.
+          swaps: chosen.length ? chosen.join(",") : undefined,
+        }}
         className={cn("mt-2 flex h-11 items-center text-body font-medium text-primary")}
       >
         Split this batch across several meals

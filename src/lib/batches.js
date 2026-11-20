@@ -4,14 +4,12 @@ import { compareSlots, mealLabel } from "@/lib/slots";
 import { mealPortions } from "@/lib/allocations";
 import { resolveBatch } from "@/lib/mealMath";
 
+// Portions are left out on purpose: tonight's dinner and tomorrow's lunch from one
+// cook often have different portions, and every total here sums per meal anyway.
 export function batchKey(meal) {
   const stamp = String(meal.created_date || "").slice(0, 16);
-  const portions = (Array.isArray(meal.portions) ? meal.portions : [])
-    .map((portion) => `${portion.diner_name}:${portion.servings}`)
-    .sort()
-    .join(",");
   const swaps = (meal.swap_keys || []).slice().sort().join("+");
-  return [meal.recipe_id, meal.version_key || "", swaps, portions, stamp].join("|");
+  return [meal.recipe_id, meal.version_key || "", swaps, stamp].join("|");
 }
 
 export function groupBatches(meals = []) {

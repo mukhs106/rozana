@@ -115,25 +115,52 @@ export function buildDemoData() {
   const notNani = DEMO_MEMBERS.filter((member) => member.id !== "d-nani");
   const stamp = (n) => new Date(Date.UTC(2026, 10, 10, 9, n)).toISOString();
 
+  // Dinner on every night of this week and the next six days, so the plan looks
+  // lived in whatever day the tester opens it. Fixed anchors first, then a rotation.
+  const fixed = {
+    [today]: ["Rajma masala", notNani],
+    [addDays(today, 1)]: ["Masoor dal", everyone],
+  };
+  const openNight = addDays(today, 3); // left empty on purpose: "Plan my week" has a night to fill
+  const rotation = [
+    ["Vegetable pulao", everyone],
+    ["Kerala coconut stew", everyone],
+    ["Bhindi masala", notNani],
+    ["Moong dal khichdi", everyone],
+    ["Baingan bharta", notNani],
+    ["Paneer bhurji", notNani],
+    ["Tandoori roast gobi", everyone],
+    ["Soya chunk curry", notNani],
+    ["Kadhi pakora", everyone],
+    ["Egg curry", notNani],
+    ["Aloo matar", notNani],
+  ];
+  const firstDay = weekStart(today);
+  const lastDay = addDays(today, 6) > addDays(firstDay, 6) ? addDays(today, 6) : addDays(firstDay, 6);
+  const dinners = [];
+  let turn = 0;
+  for (let day = firstDay, n = 0; day <= lastDay; day = addDays(day, 1), n += 1) {
+    if (day === openNight) continue;
+    const [title, diners] = fixed[day] || rotation[turn++ % rotation.length];
+    // Tonight's rajma shares a stamp with tomorrow's lunch: that is what makes them one batch.
+    dinners.push(plannedMeal(byTitle(title), day, "dinner", diners, day === today ? stamp(1) : stamp(10 + n)));
+  }
+
   const meals = [
+    ...dinners,
     // Rajma tonight, eaten again at lunch tomorrow: one batch, two meals.
-    plannedMeal(byTitle("Rajma masala"), today, "dinner", notNani, stamp(1)),
     plannedMeal(byTitle("Rajma masala"), addDays(today, 1), "lunch", notNani, stamp(1)),
-    plannedMeal(byTitle("Masoor dal"), addDays(today, 1), "dinner", everyone, stamp(2)),
-    plannedMeal(byTitle("Vegetable pulao"), addDays(today, 2), "dinner", everyone, stamp(3)),
-    plannedMeal(byTitle("Kerala coconut stew"), addDays(today, 4), "dinner", everyone, stamp(4)),
-    plannedMeal(byTitle("Bhindi masala"), addDays(today, 5), "dinner", notNani, stamp(5)),
-    { ...plannedMeal(byTitle("Aloo matar"), weekStart(today), "lunch", notNani, stamp(6)), any_day: true },
+    { ...plannedMeal(byTitle("Aloo matar"), firstDay, "lunch", notNani, stamp(6)), any_day: true },
   ].filter((meal) => meal.recipe_id);
 
   const groceries = [
     grocery("g-basmati", "Basmati rice", 1, "kg", "to_buy"),
-    grocery("g-tomato", "Tomatoes", 1, "kg", "to_buy"),
+    grocery("g-tomato", "Tomato", 1, "kg", "to_buy"),
     grocery("g-coriander", "Coriander leaves", 1, "bunch", "to_buy"),
     grocery("g-coconut-milk", "Coconut milk", 400, "ml", "to_buy", { recipe_title: "Kerala coconut stew" }),
     grocery("g-tofu", "Firm tofu", 200, "g", "to_buy", { note: "For Arjun", for_diners: ["Arjun"], recipe_title: "Paneer bhurji" }),
     grocery("g-okra", "Okra", 500, "g", "to_buy", { recipe_title: "Bhindi masala" }),
-    grocery("g-onion", "Onions", 1, "kg", "have", { use_soon: true }),
+    grocery("g-onion", "Onion", 1, "kg", "have", { use_soon: true }),
     grocery("g-spinach", "Spinach", 250, "g", "have", { use_soon: true, use_by: addDays(today, 1) }),
     grocery("g-rice-left", "Cooked rice", 2, "cups", "have", { leftover: true, use_by: addDays(today, 1) }),
     grocery("g-moong", "Moong dal", 500, "g", "have"),

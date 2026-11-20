@@ -1,7 +1,8 @@
 import { Link, useRouteContext, useRouterState } from "@tanstack/react-router";
-import { Info, Search } from "lucide-react";
+import { Info, RotateCcw, Search } from "lucide-react";
 import { useState } from "react";
 import Wordmark, { Monogram, RoughInk } from "@/components/Wordmark";
+import ResetDemoSheet from "@/components/ResetDemoSheet";
 import SearchSheet from "@/components/SearchSheet";
 import { TodayIcon, RecipesIcon, PlanIcon, ShoppingListIcon } from "@/components/icons/AppIcons";
 import { useAppName } from "@/hooks/useAppName";
@@ -70,6 +71,7 @@ function TopBar() {
   const demo = useIsDemo();
   const user = useRouteContext({ strict: false, select: (context) => context?.user });
   const [searchOpen, setSearchOpen] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
@@ -79,7 +81,16 @@ function TopBar() {
           <Wordmark text={title} className="text-[26px]" />
         </Link>
         {demo ? (
-          <span className="ml-1 rounded-full bg-sand px-2.5 py-0.5 text-small font-medium text-ink-mid">Demo</span>
+          <button
+            type="button"
+            onClick={() => setResetOpen(true)}
+            aria-label="Demo: reset sample data"
+            className="ml-1 flex h-11 items-center"
+          >
+            <span className="flex items-center gap-1 rounded-full bg-sand px-2.5 py-0.5 text-small font-medium text-ink-mid">
+              Demo <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </button>
         ) : null}
 
         <div className="ml-auto flex items-center">
@@ -97,6 +108,7 @@ function TopBar() {
         </div>
       </div>
       <SearchSheet open={searchOpen} onOpenChange={setSearchOpen} />
+      {demo ? <ResetDemoSheet open={resetOpen} onOpenChange={setResetOpen} /> : null}
     </header>
   );
 }

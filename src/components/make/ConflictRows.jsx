@@ -1,6 +1,13 @@
 import { AlertTriangle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// "Meera is allergic to nuts", "Arjun is vegan", "Nani avoids onion".
+function ruleText(conflict) {
+  if (conflict.kind === "allergy") return `is allergic to ${conflict.label}`;
+  if (conflict.kind === "diet") return `is ${conflict.label}`;
+  return `avoids ${conflict.label}`;
+}
+
 /** Allergen and diet checks as icon plus label, so they can be scanned rather than read. */
 export default function ConflictRows({ conflicts = [], missing = [] }) {
   if (!conflicts.length && !missing.length) return null;
@@ -14,8 +21,8 @@ export default function ConflictRows({ conflicts = [], missing = [] }) {
             strokeWidth={2.2}
           />
           <p className="text-small leading-snug text-ink-soft">
-            <span className="font-semibold text-ink">{conflict.who}</span> avoids {conflict.label} — {conflict.ingredient}{" "}
-            is still in.
+            <span className="font-semibold text-ink">{conflict.who}</span> {ruleText(conflict)} — {conflict.ingredient} is
+            still in.
           </p>
         </div>
       ))}
